@@ -13,6 +13,7 @@ SECRET_KEY = 'django-insecure-(cmmha&5wva2+lj0bi)&$+vse06$yah6nu7qwjds-*25v=jyd3
 DEBUG = False
 
 ALLOWED_HOSTS = [
+    "cia-online-examination.onrender.com",
     "192.168.3.4",
     "localhost",
     "127.0.0.1",
