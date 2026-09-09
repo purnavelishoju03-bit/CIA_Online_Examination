@@ -1,0 +1,44 @@
+```html
+{% extends 'admin_panel/layouts/base.html' %}
+
+{% block title %}Edit Course{% endblock %}
+
+{% block content %}
+
+<div class="max-w-4xl mx-auto">
+
+    <div class="bg-white rounded-xl shadow-md p-8">
+
+        <div class="mb-6">
+            <h1 class="text-3xl font-bold text-gray-800">Edit Course</h1>
+            <p class="text-gray-500 mt-2">Update course details.</p>
+        </div>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <div class="flex gap-4 mt-6">
+
+                <button type="submit"
+                    class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg">
+                    Update Course
+                </button>
+
+                <a href="{% url 'course_list' %}"
+                    class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg">
+                    Cancel
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
+```

@@ -1,0 +1,108 @@
+{% extends 'admin_panel/layouts/base.html' %}
+
+{% block title %}Faculty{% endblock %}
+
+{% block content %}
+
+<div class="flex justify-between items-center mb-6">
+
+    <h2 class="text-3xl font-bold">
+        Faculty Management
+    </h2>
+
+    <a href="{% url 'faculty_create' %}"
+       class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg">
+        + Add Faculty
+    </a>
+
+</div>
+
+<div class="bg-white rounded-xl shadow overflow-hidden">
+
+<table class="min-w-full">
+
+    <thead class="bg-gray-100">
+
+    <tr>
+
+        <th class="p-4 text-left">Employee ID</th>
+        <th class="p-4 text-left">Faculty Name</th>
+        <th class="p-4 text-left">Department</th>
+        <th class="p-4 text-left">Course</th>
+        <th class="p-4 text-left">Subject</th>
+        <th class="p-4 text-left">Status</th>
+        <th class="p-4 text-center">Action</th>
+
+    </tr>
+
+    </thead>
+
+    <tbody>
+
+    {% for f in faculty %}
+
+    <tr class="border-t">
+
+        <td class="p-4">{{ f.employee_id }}</td>
+
+        <td class="p-4">
+            {{ f.first_name }} {{ f.last_name }}
+        </td>
+
+        <td class="p-4">{{ f.department }}</td>
+
+        <td class="p-4">{{ f.course }}</td>
+
+        <td class="p-4">{{ f.subject }}</td>
+
+        <td class="p-4">
+
+            {% if f.status %}
+                <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full">
+                    Active
+                </span>
+            {% else %}
+                <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full">
+                    Inactive
+                </span>
+            {% endif %}
+
+        </td>
+
+        <td class="p-4 text-center">
+
+            <a href="{% url 'faculty_edit' f.id %}"
+               class="text-blue-600 mr-3">
+                Edit
+            </a>
+
+            <a href="{% url 'faculty_delete' f.id %}"
+               class="text-red-600">
+                Delete
+            </a>
+
+        </td>
+
+    </tr>
+
+    {% empty %}
+
+    <tr>
+
+        <td colspan="7" class="text-center py-8">
+
+            No Faculty Available
+
+        </td>
+
+    </tr>
+
+    {% endfor %}
+
+    </tbody>
+
+</table>
+
+</div>
+
+{% endblock %}

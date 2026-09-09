@@ -1,0 +1,58 @@
+{% extends "admin_panel/layouts/base.html" %}
+
+
+{% block content %}
+
+
+<div class="max-w-lg mx-auto bg-white shadow rounded-xl p-8">
+
+
+<h2 class="text-xl font-bold mb-5">
+
+Delete Question?
+
+</h2>
+
+
+
+<p class="mb-5">
+
+{{question.question}}
+
+</p>
+
+
+
+
+<form method="POST">
+
+{% csrf_token %}
+
+
+
+<button class="bg-red-600 text-white px-5 py-3 rounded-lg">
+
+Delete
+
+</button>
+
+
+
+<a href="{% url 'question_list' %}"
+class="bg-gray-500 text-white px-5 py-3 rounded-lg">
+
+Cancel
+
+</a>
+
+
+
+</form>
+
+
+
+</div>
+
+
+
+{% endblock %}

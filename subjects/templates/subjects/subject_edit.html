@@ -1,0 +1,47 @@
+{% extends 'admin_panel/layouts/base.html' %}
+
+
+{% block content %}
+
+
+<div class="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow">
+
+
+<h1 class="text-3xl font-bold mb-6">
+
+Edit Subject
+
+</h1>
+
+
+<form method="POST">
+
+{% csrf_token %}
+
+
+{{form.as_p}}
+
+
+<button type="submit"
+class="bg-green-600 text-white px-6 py-2 rounded-lg">
+
+Update
+
+</button>
+
+
+<a href="{% url 'subject_list' %}"
+class="ml-3 bg-gray-500 text-white px-6 py-2 rounded-lg">
+
+Cancel
+
+</a>
+
+
+</form>
+
+
+</div>
+
+
+{% endblock %}

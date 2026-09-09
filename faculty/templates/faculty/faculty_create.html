@@ -1,0 +1,616 @@
+{% extends "admin_panel/layouts/base.html" %}
+
+{% block title %}
+Add Faculty
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+    /* ==========================================
+       PAGE
+    ========================================== */
+
+    .faculty-page {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding-bottom: 40px;
+    }
+
+    /* ==========================================
+       HEADER
+    ========================================== */
+
+    .faculty-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 28px;
+    }
+
+    .faculty-header h1 {
+        font-size: 30px;
+        font-weight: 700;
+        color: #0f172a;
+        margin: 0;
+    }
+
+    .faculty-header p {
+        margin-top: 6px;
+        color: #64748b;
+        font-size: 14px;
+    }
+
+    .back-btn {
+        background: #475569;
+        color: white;
+        text-decoration: none;
+        padding: 11px 20px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        transition: 0.2s;
+    }
+
+    .back-btn:hover {
+        background: #334155;
+    }
+
+    /* ==========================================
+       MAIN CARD
+    ========================================== */
+
+    .faculty-card {
+        background: white;
+        border-radius: 14px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 8px 25px rgba(15, 23, 42, 0.08);
+        overflow: hidden;
+    }
+
+    /* ==========================================
+       CARD HEADER
+    ========================================== */
+
+    .faculty-card-header {
+        padding: 22px 28px;
+        border-bottom: 1px solid #e2e8f0;
+        background: #ffffff;
+    }
+
+    .faculty-card-header h2 {
+        margin: 0;
+        font-size: 19px;
+        font-weight: 700;
+        color: #1e293b;
+    }
+
+    .faculty-card-header p {
+        margin: 5px 0 0;
+        color: #64748b;
+        font-size: 13px;
+    }
+
+    /* ==========================================
+       FORM
+    ========================================== */
+
+    .faculty-form {
+        padding: 30px;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px 30px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-group.full-width {
+        grid-column: span 2;
+    }
+
+    .form-label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #334155;
+        margin-bottom: 8px;
+    }
+
+    .required {
+        color: #dc2626;
+        margin-left: 2px;
+    }
+
+    /* ==========================================
+       INPUTS
+    ========================================== */
+
+    .form-input {
+        width: 100%;
+        height: 46px;
+        padding: 0 14px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        background: #ffffff;
+        color: #1e293b;
+        font-size: 14px;
+        outline: none;
+        transition: all 0.2s ease;
+    }
+
+    .form-input:hover {
+        border-color: #94a3b8;
+    }
+
+    .form-input:focus {
+        border-color: #2563eb;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10);
+    }
+
+    select.form-input {
+        cursor: pointer;
+    }
+
+    /* ==========================================
+       STATUS
+    ========================================== */
+
+    .status-box {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        height: 46px;
+        padding: 0 14px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        background: #f8fafc;
+    }
+
+    .status-checkbox {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+        accent-color: #2563eb;
+    }
+
+    .status-text {
+        font-size: 14px;
+        font-weight: 500;
+        color: #334155;
+    }
+
+    /* ==========================================
+       ERROR
+    ========================================== */
+
+    .field-error {
+        color: #dc2626;
+        font-size: 12px;
+        margin-top: 6px;
+    }
+
+    .form-help {
+        color: #94a3b8;
+        font-size: 12px;
+        margin-top: 5px;
+    }
+
+    /* ==========================================
+       BUTTON AREA
+    ========================================== */
+
+    .form-footer {
+        margin-top: 32px;
+        padding-top: 22px;
+        border-top: 1px solid #e2e8f0;
+
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+    }
+
+    .cancel-btn {
+        padding: 11px 24px;
+        border-radius: 8px;
+        background: #e2e8f0;
+        color: #334155;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        transition: 0.2s;
+    }
+
+    .cancel-btn:hover {
+        background: #cbd5e1;
+    }
+
+    .save-btn {
+        border: none;
+        padding: 11px 28px;
+        border-radius: 8px;
+        background: #2563eb;
+        color: white;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(37, 99, 235, 0.20);
+        transition: 0.2s;
+    }
+
+    .save-btn:hover {
+        background: #1d4ed8;
+        transform: translateY(-1px);
+    }
+
+    /* ==========================================
+       RESPONSIVE
+    ========================================== */
+
+    @media (max-width: 768px) {
+
+        .faculty-page {
+            padding: 15px;
+        }
+
+        .faculty-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .form-group.full-width {
+            grid-column: span 1;
+        }
+
+        .faculty-form {
+            padding: 20px;
+        }
+
+        .form-footer {
+            flex-direction: column-reverse;
+        }
+
+        .cancel-btn,
+        .save-btn {
+            width: 100%;
+            text-align: center;
+        }
+    }
+
+</style>
+
+
+<div class="faculty-page">
+
+    <!-- ==========================================
+         PAGE HEADER
+    ========================================== -->
+
+    <div class="faculty-header">
+
+        <div>
+
+            <h1>
+                Add Faculty
+            </h1>
+
+            <p>
+                Register a faculty member in the CIA Online Examination System.
+            </p>
+
+        </div>
+
+        <a href="{% url 'faculty_list' %}" class="back-btn">
+            ← Back to Faculty
+        </a>
+
+    </div>
+
+
+    <!-- ==========================================
+         FORM CARD
+    ========================================== -->
+
+    <div class="faculty-card">
+
+        <!-- Card Header -->
+
+        <div class="faculty-card-header">
+
+            <h2>
+                Faculty Information
+            </h2>
+
+            <p>
+                Enter the faculty member's professional and academic details.
+            </p>
+
+        </div>
+
+
+        <!-- FORM -->
+
+        <form method="POST" class="faculty-form">
+
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+
+                <div class="field-error">
+                    {{ form.non_field_errors }}
+                </div>
+
+            {% endif %}
+
+
+            <div class="form-grid">
+
+
+                <!-- FIRST NAME -->
+
+                <div class="form-group">
+
+                    <label class="form-label">
+                        First Name
+                        <span class="required">*</span>
+                    </label>
+
+                    {{ form.first_name }}
+
+                    {% for error in form.first_name.errors %}
+                        <span class="field-error">
+                            {{ error }}
+                        </span>
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- LAST NAME -->
+
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Last Name
+                        <span class="required">*</span>
+                    </label>
+
+                    {{ form.last_name }}
+
+                    {% for error in form.last_name.errors %}
+                        <span class="field-error">
+                            {{ error }}
+                        </span>
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Email Address
+                        <span class="required">*</span>
+                    </label>
+
+                    {{ form.email }}
+
+                    {% for error in form.email.errors %}
+                        <span class="field-error">
+                            {{ error }}
+                        </span>
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- PHONE -->
+
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Phone Number
+                        <span class="required">*</span>
+                    </label>
+
+                    {{ form.phone }}
+
+                    {% for error in form.phone.errors %}
+                        <span class="field-error">
+                            {{ error }}
+                        </span>
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- DEPARTMENT -->
+
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Department
+                        <span class="required">*</span>
+                    </label>
+
+                    {{ form.department }}
+
+                    {% for error in form.department.errors %}
+                        <span class="field-error">
+                            {{ error }}
+                        </span>
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- COURSE -->
+
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Course
+                        <span class="required">*</span>
+                    </label>
+
+                    {{ form.course }}
+
+                    {% for error in form.course.errors %}
+                        <span class="field-error">
+                            {{ error }}
+                        </span>
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- SUBJECT -->
+
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Subject
+                        <span class="required">*</span>
+                    </label>
+
+                    {{ form.subject }}
+
+                    {% for error in form.subject.errors %}
+                        <span class="field-error">
+                            {{ error }}
+                        </span>
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- DESIGNATION -->
+
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Designation
+                        <span class="required">*</span>
+                    </label>
+
+                    {{ form.designation }}
+
+                    {% for error in form.designation.errors %}
+                        <span class="field-error">
+                            {{ error }}
+                        </span>
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- QUALIFICATION -->
+
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Qualification
+                        <span class="required">*</span>
+                    </label>
+
+                    {{ form.qualification }}
+
+                    {% for error in form.qualification.errors %}
+                        <span class="field-error">
+                            {{ error }}
+                        </span>
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- EXPERIENCE -->
+
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Experience (Years)
+                    </label>
+
+                    {{ form.experience }}
+
+                    <span class="form-help">
+                        Enter total teaching experience in years.
+                    </span>
+
+                    {% for error in form.experience.errors %}
+                        <span class="field-error">
+                            {{ error }}
+                        </span>
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- STATUS -->
+
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Account Status
+                    </label>
+
+                    <div class="status-box">
+
+                        {{ form.status }}
+
+                        <span class="status-text">
+                            Faculty is Active
+                        </span>
+
+                    </div>
+
+                    {% for error in form.status.errors %}
+                        <span class="field-error">
+                            {{ error }}
+                        </span>
+                    {% endfor %}
+
+                </div>
+
+
+            </div>
+
+
+            <!-- ==========================================
+                 BUTTONS
+            ========================================== -->
+
+            <div class="form-footer">
+
+                <a href="{% url 'faculty_list' %}"
+                   class="cancel-btn">
+                    Cancel
+                </a>
+
+                <button type="submit"
+                        class="save-btn">
+                    Save Faculty
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

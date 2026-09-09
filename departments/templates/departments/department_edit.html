@@ -1,0 +1,28 @@
+{% extends 'admin_panel/layouts/base.html' %}
+
+{% block title %}Edit Department{% endblock %}
+
+{% block content %}
+
+<h1 class="text-3xl font-bold mb-6">
+
+Edit Department
+
+</h1>
+
+<form method="POST" class="bg-white p-6 rounded-lg shadow">
+
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button
+        class="bg-blue-600 text-white px-6 py-2 rounded-lg">
+
+        Update
+
+    </button>
+
+</form>
+
+{% endblock %}

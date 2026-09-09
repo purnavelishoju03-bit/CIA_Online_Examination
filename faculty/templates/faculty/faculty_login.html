@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Faculty Login | Digital Internal Assessment Portal</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:#f1f5f9;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* ===========================
+LOGIN CONTAINER
+=========================== */
+
+.login-container{
+    width:950px;
+    background:#fff;
+    display:flex;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 20px 50px rgba(0,0,0,.15);
+}
+
+/* ===========================
+LEFT PANEL
+=========================== */
+
+.left-panel{
+    width:45%;
+    background:#0f4c81;
+    color:#fff;
+    padding:50px;
+}
+
+.logo{
+    font-size:28px;
+    font-weight:700;
+    margin-bottom:40px;
+}
+
+.left-panel h1{
+    font-size:38px;
+    margin-bottom:20px;
+}
+
+.left-panel p{
+    line-height:30px;
+    font-size:16px;
+    opacity:.95;
+}
+
+.icon{
+    text-align:center;
+    font-size:90px;
+    margin-top:60px;
+}
+
+/* ===========================
+RIGHT PANEL
+=========================== */
+
+.right-panel{
+    width:55%;
+    padding:50px;
+}
+
+.right-panel h2{
+    font-size:32px;
+    color:#0f172a;
+}
+
+.subtitle{
+    color:#64748b;
+    margin:10px 0 30px;
+}
+
+/* ===========================
+FORM
+=========================== */
+
+.form-group{
+    margin-bottom:20px;
+}
+
+label{
+    display:block;
+    margin-bottom:8px;
+    font-weight:600;
+    color:#334155;
+}
+
+input{
+    width:100%;
+    padding:14px;
+    border:1px solid #cbd5e1;
+    border-radius:8px;
+    font-size:15px;
+}
+
+input:focus{
+    outline:none;
+    border-color:#2563eb;
+}
+
+/* ===========================
+BUTTONS
+=========================== */
+
+.login-btn{
+    width:100%;
+    padding:15px;
+    background:#2563eb;
+    color:white;
+    border:none;
+    border-radius:8px;
+    font-size:17px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.login-btn:hover{
+    background:#1d4ed8;
+}
+
+.register-btn{
+    display:block;
+    width:100%;
+    text-align:center;
+    padding:15px;
+    margin-top:15px;
+    background:#16a34a;
+    color:white;
+    text-decoration:none;
+    border-radius:8px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.register-btn:hover{
+    background:#15803d;
+}
+
+.home-btn{
+    display:block;
+    width:100%;
+    text-align:center;
+    padding:15px;
+    margin-top:15px;
+    background:#64748b;
+    color:white;
+    text-decoration:none;
+    border-radius:8px;
+    font-weight:600;
+}
+
+.home-btn:hover{
+    background:#475569;
+}
+
+/* ===========================
+LINKS
+=========================== */
+
+.links{
+    display:flex;
+    justify-content:space-between;
+    margin-top:15px;
+}
+
+.links a{
+    text-decoration:none;
+    color:#2563eb;
+    font-size:14px;
+}
+
+.links a:hover{
+    text-decoration:underline;
+}
+
+/* ===========================
+MESSAGE
+=========================== */
+
+.message{
+    color:#dc2626;
+    margin-bottom:20px;
+    font-weight:500;
+}
+
+/* ===========================
+FOOTER
+=========================== */
+
+.footer{
+    margin-top:30px;
+    text-align:center;
+    color:#64748b;
+    font-size:14px;
+}
+
+/* ===========================
+RESPONSIVE
+=========================== */
+
+@media(max-width:850px){
+
+.login-container{
+    width:95%;
+    flex-direction:column;
+}
+
+.left-panel,
+.right-panel{
+    width:100%;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="login-container">
+
+    <!-- LEFT PANEL -->
+
+    <div class="left-panel">
+
+        <div class="logo">
+            🎓 Digital Internal Assessment Portal
+        </div>
+
+        <h1>Faculty Portal</h1>
+
+        <p>
+            Manage examinations, maintain question banks,
+            evaluate student performance and download
+            semester-wise result reports securely.
+        </p>
+
+        <div class="icon">
+            👨‍🏫
+        </div>
+
+    </div>
+
+    <!-- RIGHT PANEL -->
+
+    <div class="right-panel">
+
+        <h2>Faculty Login</h2>
+
+        <p class="subtitle">
+            Enter your credentials to access your Faculty Dashboard.
+        </p>
+
+        {% if messages %}
+            {% for message in messages %}
+                <p class="message">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label>Username</label>
+                {{ form.username }}
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                {{ form.password }}
+            </div>
+
+            <button type="submit" class="login-btn">
+                Login
+            </button>
+
+        </form>
+
+        <div class="links">
+            <a href="#">Forgot Password?</a>
+            <a href="{% url 'home' %}">Back to Home</a>
+        </div>
+
+        <a href="{% url 'faculty_register' %}" class="register-btn">
+            Register as Faculty
+        </a>
+
+        <a href="{% url 'home' %}" class="home-btn">
+            Home
+        </a>
+
+        <div class="footer">
+            © 2026 Digital Internal Assessment Portal <br>
+            Faculty Management System
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

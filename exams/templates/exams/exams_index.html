@@ -1,0 +1,486 @@
+{% extends "admin_panel/layouts/base.html" %}
+
+{% block title %}Exams{% endblock %}
+
+
+{% block content %}
+
+
+<style>
+
+.page-wrapper{
+    background:#f8fafc;
+    min-height:100vh;
+    padding:30px;
+}
+
+
+/* Header */
+
+.page-title{
+    font-size:32px;
+    font-weight:700;
+    color:#0f172a;
+}
+
+
+.page-text{
+    color:#64748b;
+    margin-top:5px;
+}
+
+
+/* Main Card */
+
+.exam-card{
+
+    background:white;
+
+    border-radius:16px;
+
+    border:1px solid #e2e8f0;
+
+    box-shadow:0 10px 25px rgba(15,23,42,.08);
+
+    overflow:hidden;
+
+}
+
+
+
+
+/* Table */
+
+.exam-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+
+
+.exam-table thead{
+
+    background:linear-gradient(
+        135deg,
+        #1e40af,
+        #2563eb
+    );
+
+    color:white;
+
+}
+
+
+
+.exam-table th{
+
+    padding:16px;
+
+    text-align:left;
+
+    font-size:14px;
+
+    font-weight:600;
+
+}
+
+
+
+.exam-table td{
+
+    padding:16px;
+
+    border-bottom:1px solid #e2e8f0;
+
+    color:#334155;
+
+}
+
+
+
+.exam-table tbody tr:hover{
+
+    background:#eff6ff;
+
+}
+
+
+
+
+/* Buttons */
+
+
+.create-btn{
+
+    background:#2563eb;
+
+    color:white;
+
+    padding:12px 22px;
+
+    border-radius:10px;
+
+    font-weight:600;
+
+    box-shadow:0 5px 15px rgba(37,99,235,.25);
+
+}
+
+
+
+.create-btn:hover{
+
+    background:#1d4ed8;
+
+}
+
+
+
+
+.edit-btn{
+
+    background:#16a34a;
+
+    color:white;
+
+    padding:7px 14px;
+
+    border-radius:7px;
+
+    font-size:13px;
+
+}
+
+
+
+.delete-btn{
+
+    background:#dc2626;
+
+    color:white;
+
+    padding:7px 14px;
+
+    border-radius:7px;
+
+    font-size:13px;
+
+}
+
+
+
+.edit-btn:hover{
+
+    background:#15803d;
+
+}
+
+
+.delete-btn:hover{
+
+    background:#b91c1c;
+
+}
+
+
+
+
+.status-active{
+
+    background:#dcfce7;
+
+    color:#15803d;
+
+    padding:6px 12px;
+
+    border-radius:20px;
+
+    font-size:13px;
+
+    font-weight:600;
+
+}
+
+
+
+.status-inactive{
+
+    background:#fee2e2;
+
+    color:#b91c1c;
+
+    padding:6px 12px;
+
+    border-radius:20px;
+
+    font-size:13px;
+
+    font-weight:600;
+
+}
+
+
+</style>
+
+
+
+
+<div class="page-wrapper">
+
+
+
+<!-- Header -->
+
+<div class="flex justify-between items-center mb-8">
+
+
+<div>
+
+<h1 class="page-title">
+Exam Management
+</h1>
+
+
+<p class="page-text">
+Manage all CIA Online Examinations
+</p>
+
+
+</div>
+
+
+
+
+<a href="{% url 'exam_create' %}"
+class="create-btn">
+
++ Create Exam
+
+</a>
+
+
+
+</div>
+
+
+
+
+
+
+<!-- Table -->
+
+
+<div class="exam-card">
+
+
+<table class="exam-table">
+
+
+<thead>
+
+<tr>
+
+<th>Exam Name</th>
+
+<th>Department</th>
+
+<th>Course</th>
+
+<th>Semester</th>
+
+<th>Subject</th>
+
+<th>Faculty</th>
+
+<th>Date</th>
+
+<th>Status</th>
+
+<th class="text-center">
+Actions
+</th>
+
+
+</tr>
+
+
+</thead>
+
+
+
+
+<tbody>
+
+
+
+{% for exam in exams %}
+
+
+
+<tr>
+
+
+<td class="font-semibold">
+
+{{ exam.exam_name }}
+
+</td>
+
+
+
+<td>
+
+{{ exam.department }}
+
+</td>
+
+
+
+<td>
+
+{{ exam.course }}
+
+</td>
+
+
+
+<td>
+
+Semester {{ exam.semester }}
+
+</td>
+
+
+
+<td>
+
+{{ exam.subject }}
+
+</td>
+
+
+
+<td>
+
+{{ exam.faculty }}
+
+</td>
+
+
+
+<td>
+
+{{ exam.exam_date }}
+
+</td>
+
+
+
+
+<td>
+
+
+{% if exam.status == "Active" %}
+
+
+<span class="status-active">
+
+Active
+
+</span>
+
+
+{% else %}
+
+
+<span class="status-inactive">
+
+Inactive
+
+</span>
+
+
+{% endif %}
+
+
+
+</td>
+
+
+
+
+<td class="text-center">
+
+
+<a href="{% url 'exam_edit' exam.id %}"
+class="edit-btn mr-2">
+
+Edit
+
+</a>
+
+
+
+
+<a href="{% url 'exam_delete' exam.id %}"
+class="bg-red-600 text-white px-4 py-2 rounded">
+    Delete
+</a>
+
+
+
+
+
+</td>
+
+
+
+</tr>
+
+
+
+
+{% empty %}
+
+
+
+<tr>
+
+<td colspan="9"
+class="text-center py-10 text-gray-500">
+
+
+No Exams Available
+
+
+</td>
+
+</tr>
+
+
+
+
+{% endfor %}
+
+
+
+</tbody>
+
+
+
+</table>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+{% endblock %}

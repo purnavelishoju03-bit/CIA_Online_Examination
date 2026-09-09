@@ -1,0 +1,465 @@
+{% extends 'admin_panel/layouts/base.html' %}
+
+{% block title %}Examination Results{% endblock %}
+
+{% block content %}
+
+<div class="max-w-7xl mx-auto">
+
+    <!-- ================================================= -->
+    <!-- PAGE HEADER -->
+    <!-- ================================================= -->
+
+    <div class="mb-8">
+
+        <h1 class="text-3xl font-bold text-gray-800">
+            Examination Results
+        </h1>
+
+        <p class="text-gray-500 mt-1">
+            Filter and download student examination results.
+        </p>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- FILTER CARD -->
+    <!-- ================================================= -->
+
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+
+        <form method="GET">
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+
+                <!-- DEPARTMENT -->
+
+                <div>
+
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">
+                        Department
+                    </label>
+
+                    <select
+                        name="department"
+                        class="w-full border border-gray-300 rounded-lg px-4 py-3 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+                        <option value="">
+                            All Departments
+                        </option>
+
+                        {% for department in departments %}
+
+                        <option
+                            value="{{ department.id }}"
+                            {% if selected_department == department.id|stringformat:"s" %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ department }}
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <!-- COURSE -->
+
+                <div>
+
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">
+                        Course
+                    </label>
+
+                    <select
+                        name="course"
+                        class="w-full border border-gray-300 rounded-lg px-4 py-3 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+                        <option value="">
+                            All Courses
+                        </option>
+
+                        {% for course in courses %}
+
+                        <option
+                            value="{{ course.id }}"
+                            {% if selected_course == course.id|stringformat:"s" %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ course }}
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <!-- SEMESTER -->
+
+                <div>
+
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">
+                        Semester
+                    </label>
+
+                    <select
+                        name="semester"
+                        class="w-full border border-gray-300 rounded-lg px-4 py-3 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+                        <option value="">
+                            All Semesters
+                        </option>
+
+                        {% for semester in "123456" %}
+
+                        <option
+                            value="{{ semester }}"
+                            {% if selected_semester == semester %}
+                                selected
+                            {% endif %}
+                        >
+                            Semester {{ semester }}
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- BUTTONS -->
+
+            <div class="flex justify-end gap-3 mt-6">
+
+                <a
+                    href="{% url 'results_list' %}"
+                    class="px-5 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
+
+                    Clear
+
+                </a>
+
+
+                <button
+                    type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold">
+
+                    🔍 View Results
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- SUMMARY CARDS -->
+    <!-- ================================================= -->
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
+
+
+        <!-- TOTAL -->
+
+        <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+
+            <p class="text-sm text-gray-500">
+                Total Results
+            </p>
+
+            <h2 class="text-3xl font-bold text-blue-600 mt-2">
+                {{ total_results }}
+            </h2>
+
+        </div>
+
+
+        <!-- PASSED -->
+
+        <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+
+            <p class="text-sm text-gray-500">
+                Passed
+            </p>
+
+            <h2 class="text-3xl font-bold text-green-600 mt-2">
+                {{ passed_results }}
+            </h2>
+
+        </div>
+
+
+        <!-- FAILED -->
+
+        <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+
+            <p class="text-sm text-gray-500">
+                Failed
+            </p>
+
+            <h2 class="text-3xl font-bold text-red-600 mt-2">
+                {{ failed_results }}
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- RESULTS TABLE HEADER -->
+    <!-- ================================================= -->
+
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+
+
+        <div class="px-6 py-5 border-b border-gray-200 flex justify-between items-center">
+
+            <div>
+
+                <h2 class="text-xl font-bold text-gray-800">
+                    Student Results
+                </h2>
+
+                <p class="text-sm text-gray-500 mt-1">
+                    {{ total_results }} result(s) found
+                </p>
+
+            </div>
+
+
+            <!-- EXCEL DOWNLOAD -->
+
+            <form method="GET"
+                  action="{% url 'export_results_excel' %}">
+
+                <input
+                    type="hidden"
+                    name="department"
+                    value="{{ selected_department }}">
+
+                <input
+                    type="hidden"
+                    name="course"
+                    value="{{ selected_course }}">
+
+                <input
+                    type="hidden"
+                    name="semester"
+                    value="{{ selected_semester }}">
+
+                <button
+                    type="submit"
+                    class="bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-lg font-semibold">
+
+                    📥 Download Excel
+
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- TABLE -->
+        <!-- ================================================= -->
+
+        <div class="overflow-x-auto">
+
+            <table class="w-full">
+
+                <thead class="bg-slate-100">
+
+                    <tr>
+
+                        <th class="px-5 py-4 text-left text-sm font-semibold text-gray-700">
+                            S.No
+                        </th>
+
+                        <th class="px-5 py-4 text-left text-sm font-semibold text-gray-700">
+                            Roll Number
+                        </th>
+
+                        <th class="px-5 py-4 text-left text-sm font-semibold text-gray-700">
+                            Student
+                        </th>
+
+                        <th class="px-5 py-4 text-left text-sm font-semibold text-gray-700">
+                            Exam
+                        </th>
+
+                        <th class="px-5 py-4 text-left text-sm font-semibold text-gray-700">
+                            Subject
+                        </th>
+
+                        <th class="px-5 py-4 text-center text-sm font-semibold text-gray-700">
+                            Marks
+                        </th>
+
+                        <th class="px-5 py-4 text-center text-sm font-semibold text-gray-700">
+                            Percentage
+                        </th>
+
+                        <th class="px-5 py-4 text-center text-sm font-semibold text-gray-700">
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody class="divide-y divide-gray-200">
+
+
+                    {% for result in results %}
+
+                    <tr class="hover:bg-gray-50">
+
+
+                        <!-- S.NO -->
+
+                        <td class="px-5 py-4 text-sm text-gray-700">
+
+                            {{ forloop.counter }}
+
+                        </td>
+
+
+                        <!-- ROLL NUMBER -->
+
+                        <td class="px-5 py-4 text-sm font-medium text-gray-800">
+
+                            {{ result.student.roll_number }}
+
+                        </td>
+
+
+                        <!-- STUDENT -->
+
+                        <td class="px-5 py-4 text-sm text-gray-700">
+
+                            {{ result.student.first_name }}
+                            {{ result.student.last_name }}
+
+                        </td>
+
+
+                        <!-- EXAM -->
+
+                        <td class="px-5 py-4 text-sm text-gray-700">
+
+                            {{ result.exam.exam_name }}
+
+                        </td>
+
+
+                        <!-- SUBJECT -->
+
+                        <td class="px-5 py-4 text-sm text-gray-700">
+
+                            {{ result.exam.subject }}
+
+                        </td>
+
+
+                        <!-- MARKS -->
+
+                        <td class="px-5 py-4 text-center font-semibold">
+
+                            {{ result.obtained_marks }}
+                            /
+                            {{ result.total_marks }}
+
+                        </td>
+
+
+                        <!-- PERCENTAGE -->
+
+                        <td class="px-5 py-4 text-center font-semibold">
+
+                            {{ result.percentage }}%
+
+                        </td>
+
+
+                        <!-- STATUS -->
+
+                        <td class="px-5 py-4 text-center">
+
+                            {% if result.status == "Pass" %}
+
+                                <span class="inline-flex px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">
+
+                                    PASS
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="inline-flex px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700">
+
+                                    FAIL
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td
+                            colspan="8"
+                            class="px-6 py-12 text-center text-gray-500">
+
+                            <div class="text-4xl mb-3">
+                                📊
+                            </div>
+
+                            <p class="font-semibold text-gray-700">
+                                No examination results found.
+                            </p>
+
+                            <p class="text-sm mt-1">
+                                Select Department, Course and Semester to view results.
+                            </p>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

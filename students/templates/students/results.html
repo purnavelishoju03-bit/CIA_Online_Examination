@@ -1,0 +1,123 @@
+{% extends "students/layouts/base.html" %}
+
+{% block title %}
+Exam Result
+{% endblock %}
+
+{% block content %}
+
+<div class="max-w-5xl mx-auto py-8">
+
+    <!-- Success Message -->
+    <div class="bg-green-600 text-white rounded-xl shadow-lg p-6 mb-6 text-center">
+        <h1 class="text-3xl font-bold">
+            ✅ Examination Submitted Successfully
+        </h1>
+
+        <p class="mt-2 text-lg">
+            Your examination has been submitted successfully.
+        </p>
+    </div>
+
+    <!-- Result Card -->
+    <div class="bg-white rounded-xl shadow-lg p-8">
+
+        <h2 class="text-2xl font-bold mb-6 border-b pb-4">
+            Examination Result
+        </h2>
+
+        <div class="grid grid-cols-2 gap-6">
+
+            <div>
+                <label class="font-semibold text-gray-600">
+                    Student Name
+                </label>
+
+                <p class="text-lg font-bold">
+                    {{ result.student }}
+                </p>
+            </div>
+
+            <div>
+                <label class="font-semibold text-gray-600">
+                    Examination
+                </label>
+
+                <p class="text-lg font-bold">
+                    {{ result.exam }}
+                </p>
+            </div>
+
+            <div>
+                <label class="font-semibold text-gray-600">
+                    Total Marks
+                </label>
+
+                <p class="text-lg">
+                    {{ result.total_marks }}
+                </p>
+            </div>
+
+            <div>
+                <label class="font-semibold text-gray-600">
+                    Obtained Marks
+                </label>
+
+                <p class="text-lg font-bold text-blue-700">
+                    {{ result.obtained_marks }}
+                </p>
+            </div>
+
+            <div>
+                <label class="font-semibold text-gray-600">
+                    Percentage
+                </label>
+
+                <p class="text-lg">
+                    {{ percentage }}%
+                </p>
+            </div>
+
+            <div>
+                <label class="font-semibold text-gray-600">
+                    Result
+                </label>
+
+                {% if result.status == "Pass" %}
+                    <span class="bg-green-600 text-white px-4 py-2 rounded-lg">
+                        PASS
+                    </span>
+                {% else %}
+                    <span class="bg-red-600 text-white px-4 py-2 rounded-lg">
+                        FAIL
+                    </span>
+                {% endif %}
+            </div>
+
+        </div>
+
+        <hr class="my-8">
+
+        <div class="flex justify-center gap-4">
+
+            <a href="{% url 'student_dashboard' %}"
+               class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700">
+
+                Back to Dashboard
+
+            </a>
+
+            <button onclick="window.print()"
+                    class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700">
+
+                Print Result
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

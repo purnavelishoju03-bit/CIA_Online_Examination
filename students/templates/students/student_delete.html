@@ -1,0 +1,35 @@
+{% extends 'admin_panel/layouts/base.html' %}
+
+{% block title %}Delete Student{% endblock %}
+
+{% block content %}
+
+<div class="max-w-xl mx-auto bg-white shadow-lg rounded-lg p-6">
+
+    <h2 class="text-2xl font-bold text-red-600 mb-4">
+        Delete Student
+    </h2>
+
+    <p class="mb-6">
+        Are you sure you want to delete
+        <strong>{{ student.name }}</strong>?
+    </p>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <button type="submit"
+            class="bg-red-600 text-white px-5 py-2 rounded hover:bg-red-700">
+            Delete
+        </button>
+
+        <a href="{% url 'student_list' %}"
+            class="bg-gray-500 text-white px-5 py-2 rounded hover:bg-gray-600">
+            Cancel
+        </a>
+
+    </form>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'admin_panel/layouts/base.html' %}
+
+{% block title %}Edit Student{% endblock %}
+
+{% block content %}
+
+<div class="max-w-3xl mx-auto bg-white shadow-lg rounded-lg p-6">
+
+    <h2 class="text-3xl font-bold mb-6">
+        Edit Student
+    </h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <div class="mt-6 flex gap-3">
+
+            <button type="submit"
+                class="bg-green-600 text-white px-5 py-2 rounded hover:bg-green-700">
+                Update
+            </button>
+
+            <a href="{% url 'student_list' %}"
+                class="bg-gray-500 text-white px-5 py-2 rounded hover:bg-gray-600">
+                Cancel
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

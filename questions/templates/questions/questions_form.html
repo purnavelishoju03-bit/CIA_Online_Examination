@@ -1,0 +1,282 @@
+{% extends "admin_panel/layouts/base.html" %}
+
+{% block title %}Question{% endblock %}
+
+{% block content %}
+
+<div class="max-w-4xl mx-auto">
+
+    <div class="bg-white rounded-xl shadow-lg p-8">
+
+        <div class="mb-8">
+
+            <h1 class="text-3xl font-bold text-slate-800">
+                {% if form.instance.pk %}
+                    Edit Question
+                {% else %}
+                    Add Question
+                {% endif %}
+            </h1>
+
+            <p class="text-slate-500 mt-2">
+                Create an MCQ or voice-based examination question.
+            </p>
+
+        </div>
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="bg-red-100 text-red-700 p-4 rounded-lg mb-5">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+
+            <!-- Subject -->
+
+            <div class="mb-5">
+
+                <label class="block font-semibold mb-2">
+                    Subject
+                </label>
+
+                {{ form.subject }}
+
+                {% for error in form.subject.errors %}
+                    <p class="text-red-600 text-sm mt-1">
+                        {{ error }}
+                    </p>
+                {% endfor %}
+
+            </div>
+
+
+            <!-- Question Type -->
+
+            <div class="mb-5">
+
+                <label class="block font-semibold mb-2">
+                    Question Type
+                </label>
+
+                {{ form.question_type }}
+
+                <p class="text-sm text-slate-500 mt-1">
+                    Select MCQ for multiple-choice questions or Voice
+                    for spoken-answer questions.
+                </p>
+
+            </div>
+
+
+            <!-- Question -->
+
+            <div class="mb-5">
+
+                <label class="block font-semibold mb-2">
+                    Question
+                </label>
+
+                {{ form.question }}
+
+                {% for error in form.question.errors %}
+                    <p class="text-red-600 text-sm mt-1">
+                        {{ error }}
+                    </p>
+                {% endfor %}
+
+            </div>
+
+
+            <!-- MCQ SECTION -->
+
+            <div id="mcq-section">
+
+                <div class="border-t pt-6 mt-6">
+
+                    <h2 class="text-xl font-bold text-slate-800 mb-5">
+                        MCQ Options
+                    </h2>
+
+
+                    <!-- Option A -->
+
+                    <div class="mb-4">
+
+                        <label class="block font-semibold mb-2">
+                            Option A
+                        </label>
+
+                        {{ form.option_a }}
+
+                    </div>
+
+
+                    <!-- Option B -->
+
+                    <div class="mb-4">
+
+                        <label class="block font-semibold mb-2">
+                            Option B
+                        </label>
+
+                        {{ form.option_b }}
+
+                    </div>
+
+
+                    <!-- Option C -->
+
+                    <div class="mb-4">
+
+                        <label class="block font-semibold mb-2">
+                            Option C
+                        </label>
+
+                        {{ form.option_c }}
+
+                    </div>
+
+
+                    <!-- Option D -->
+
+                    <div class="mb-4">
+
+                        <label class="block font-semibold mb-2">
+                            Option D
+                        </label>
+
+                        {{ form.option_d }}
+
+                    </div>
+
+
+                    <!-- Correct Answer -->
+
+                    <div class="mb-5">
+
+                        <label class="block font-semibold mb-2">
+                            Correct Answer
+                        </label>
+
+                        {{ form.correct_answer }}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- MARKS -->
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+                <div>
+
+                    <label class="block font-semibold mb-2">
+                        Marks
+                    </label>
+
+                    {{ form.marks }}
+
+                </div>
+
+
+                <div>
+
+                    <label class="block font-semibold mb-2">
+                        Difficulty
+                    </label>
+
+                    {{ form.difficulty }}
+
+                </div>
+
+            </div>
+
+
+            <!-- STATUS -->
+
+            <div class="mt-5">
+
+                <label class="block font-semibold mb-2">
+                    Status
+                </label>
+
+                {{ form.status }}
+
+            </div>
+
+
+            <!-- BUTTONS -->
+
+            <div class="flex gap-3 mt-8">
+
+                <button
+                    type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold">
+
+                    💾 Save Question
+
+                </button>
+
+
+                <a
+                    href="{% url 'question_list' %}"
+                    class="bg-slate-200 hover:bg-slate-300 text-slate-800 px-6 py-3 rounded-lg font-semibold">
+
+                    Cancel
+
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script>
+
+function toggleQuestionType() {
+
+    const type = document.getElementById("id_question_type").value;
+
+    const mcqSection = document.getElementById("mcq-section");
+
+    if (type === "VOICE") {
+
+        mcqSection.style.display = "none";
+
+    } else {
+
+        mcqSection.style.display = "block";
+
+    }
+}
+
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const typeField =
+        document.getElementById("id_question_type");
+
+    toggleQuestionType();
+
+    typeField.addEventListener(
+        "change",
+        toggleQuestionType
+    );
+
+});
+
+</script>
+
+{% endblock %}

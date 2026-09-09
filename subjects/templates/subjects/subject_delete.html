@@ -1,0 +1,58 @@
+{% extends 'admin_panel/layouts/base.html' %}
+
+
+{% block content %}
+
+
+<div class="max-w-xl mx-auto bg-white p-8 rounded-lg shadow">
+
+
+<h1 class="text-2xl font-bold text-red-600 mb-4">
+
+Delete Subject
+
+</h1>
+
+
+<p class="mb-6">
+
+Are you sure you want to delete
+
+<strong>
+{{subject.name}}
+</strong>
+
+?
+
+</p>
+
+
+
+<form method="POST">
+
+{% csrf_token %}
+
+
+<button type="submit"
+class="bg-red-600 text-white px-6 py-2 rounded-lg">
+
+Delete
+
+</button>
+
+
+<a href="{% url 'subject_list' %}"
+class="ml-3 bg-gray-500 text-white px-6 py-2 rounded-lg">
+
+Cancel
+
+</a>
+
+
+</form>
+
+
+</div>
+
+
+{% endblock %}

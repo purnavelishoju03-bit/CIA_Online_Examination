@@ -1,0 +1,349 @@
+{% extends 'admin_panel/layouts/base.html' %}
+
+{% block title %}Add Course{% endblock %}
+
+{% block content %}
+
+<div class="max-w-5xl mx-auto">
+
+    <!-- PAGE HEADER -->
+    <div class="mb-8">
+
+        <div class="flex items-center gap-3 mb-2">
+
+            <a href="{% url 'course_list' %}"
+               class="w-10 h-10 flex items-center justify-center
+                      bg-white border border-gray-200
+                      rounded-lg hover:bg-gray-50 transition
+                      text-gray-600 text-xl">
+
+                ←
+
+            </a>
+
+            <div>
+
+                <h1 class="text-3xl font-bold text-gray-800">
+                    Add Course
+                </h1>
+
+                <p class="text-gray-500 mt-1">
+                    Create a new course for the CIA Online Examination System.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- FORM CARD -->
+    <div class="bg-white rounded-2xl shadow-lg
+                border border-gray-100 overflow-hidden">
+
+        <!-- CARD HEADER -->
+        <div class="bg-gradient-to-r from-blue-600 to-indigo-600
+                    px-8 py-6 text-white">
+
+            <div class="flex items-center gap-4">
+
+                <div class="w-12 h-12
+                            bg-white/20 rounded-xl
+                            flex items-center justify-center
+                            text-2xl">
+
+                    🎓
+
+                </div>
+
+                <div>
+
+                    <h2 class="text-xl font-semibold">
+                        Course Information
+                    </h2>
+
+                    <p class="text-blue-100 text-sm mt-1">
+                        Enter the course details below.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- FORM -->
+        <form method="POST" class="p-8">
+
+            {% csrf_token %}
+
+
+            <!-- NON FIELD ERRORS -->
+            {% if form.non_field_errors %}
+
+                <div class="mb-6 p-4 rounded-lg
+                            bg-red-50 border border-red-200
+                            text-red-700">
+
+                    {{ form.non_field_errors }}
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- FORM GRID -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+
+                <!-- DEPARTMENT -->
+                <div class="md:col-span-2">
+
+                    <label class="block text-sm font-semibold
+                                  text-gray-700 mb-2">
+
+                        Department
+
+                        <span class="text-red-500">*</span>
+
+                    </label>
+
+                    {{ form.department }}
+
+                    {% if form.department.errors %}
+
+                        <p class="text-red-600 text-sm mt-1">
+                            {{ form.department.errors.0 }}
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- COURSE NAME -->
+                <div>
+
+                    <label class="block text-sm font-semibold
+                                  text-gray-700 mb-2">
+
+                        Course Name
+
+                        <span class="text-red-500">*</span>
+
+                    </label>
+
+                    {{ form.name }}
+
+                    {% if form.name.errors %}
+
+                        <p class="text-red-600 text-sm mt-1">
+                            {{ form.name.errors.0 }}
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- COURSE CODE -->
+                <div>
+
+                    <label class="block text-sm font-semibold
+                                  text-gray-700 mb-2">
+
+                        Course Code
+
+                        <span class="text-red-500">*</span>
+
+                    </label>
+
+                    {{ form.code }}
+
+                    {% if form.code.errors %}
+
+                        <p class="text-red-600 text-sm mt-1">
+                            {{ form.code.errors.0 }}
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- DURATION -->
+                <div>
+
+                    <label class="block text-sm font-semibold
+                                  text-gray-700 mb-2">
+
+                        Duration
+
+                        <span class="text-red-500">*</span>
+
+                    </label>
+
+                    <div class="relative">
+
+                        {{ form.duration }}
+
+                        <div class="absolute right-3 top-1/2
+                                    -translate-y-1/2
+                                    text-gray-400 text-sm
+                                    pointer-events-none">
+
+                            Years
+
+                        </div>
+
+                    </div>
+
+                    {% if form.duration.errors %}
+
+                        <p class="text-red-600 text-sm mt-1">
+                            {{ form.duration.errors.0 }}
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
+
+            </div>
+
+
+            <!-- BUTTONS -->
+            <div class="flex justify-end gap-4
+                        mt-8 pt-6
+                        border-t border-gray-200">
+
+                <a href="{% url 'course_list' %}"
+                   class="px-6 py-3
+                          bg-gray-100 hover:bg-gray-200
+                          text-gray-700 font-semibold
+                          rounded-lg transition">
+
+                    Cancel
+
+                </a>
+
+
+                <button type="submit"
+                        class="px-7 py-3
+                               bg-blue-600 hover:bg-blue-700
+                               text-white font-semibold
+                               rounded-lg shadow-md
+                               hover:shadow-lg
+                               transition">
+
+                    ✓ Save Course
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- FIELD STYLING -->
+<style>
+
+    input[type="text"],
+    input[type="number"],
+    input[type="email"],
+    select {
+
+        width: 100%;
+        padding: 13px 14px;
+
+        border: 1px solid #d1d5db;
+        border-radius: 9px;
+
+        background-color: #ffffff;
+        color: #1f2937;
+
+        font-size: 15px;
+
+        outline: none;
+
+        transition: all 0.2s ease;
+
+        box-sizing: border-box;
+
+    }
+
+
+    input[type="text"]:hover,
+    input[type="number"]:hover,
+    input[type="email"]:hover,
+    select:hover {
+
+        border-color: #9ca3af;
+
+    }
+
+
+    input[type="text"]:focus,
+    input[type="number"]:focus,
+    input[type="email"]:focus,
+    select:focus {
+
+        border-color: #2563eb;
+
+        box-shadow:
+            0 0 0 3px rgba(37, 99, 235, 0.12);
+
+    }
+
+
+    select {
+
+        cursor: pointer;
+
+    }
+
+
+    input[type="number"] {
+
+        padding-right: 65px;
+
+    }
+
+
+    ul.errorlist {
+
+        list-style: none;
+
+        padding: 0;
+
+        margin: 5px 0 0;
+
+        color: #dc2626;
+
+        font-size: 13px;
+
+    }
+
+
+    /* RESPONSIVE */
+
+    @media (max-width: 768px) {
+
+        .max-w-5xl {
+
+            padding-left: 10px;
+            padding-right: 10px;
+
+        }
+
+    }
+
+</style>
+
+{% endblock %}

@@ -1,0 +1,2432 @@
+{% extends "students/layouts/base.html" %}
+
+{% block title %}Exam Readiness | {{ exam.exam_name }}{% endblock %}
+
+{% block content %}
+
+<style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+    .exam-readiness-page {
+        min-height: calc(100vh - 80px);
+        background: #f4f7fb;
+        padding: 28px;
+        color: #172033;
+    }
+
+    .exam-readiness-container {
+        max-width: 1280px;
+        margin: 0 auto;
+    }
+
+    /* =========================================================
+       HEADER
+    ========================================================= */
+
+    .exam-top-header {
+        background: linear-gradient(
+            135deg,
+            #0b3b6e 0%,
+            #1261a0 55%,
+            #1976d2 100%
+        );
+
+        color: white;
+        border-radius: 16px;
+        padding: 24px 28px;
+        margin-bottom: 22px;
+
+        box-shadow:
+            0 10px 30px rgba(15, 55, 95, .16);
+    }
+
+    .exam-top-header-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+    }
+
+    .exam-heading {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .exam-heading-icon {
+        width: 54px;
+        height: 54px;
+        border-radius: 13px;
+
+        background: rgba(255,255,255,.14);
+        border: 1px solid rgba(255,255,255,.20);
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 26px;
+    }
+
+    .exam-heading h1 {
+        margin: 0 0 5px;
+        font-size: 25px;
+        font-weight: 750;
+    }
+
+    .exam-heading p {
+        margin: 0;
+        font-size: 13px;
+        opacity: .86;
+    }
+
+    .secure-exam-badge {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        padding: 10px 15px;
+        border-radius: 30px;
+
+        background: rgba(255,255,255,.12);
+        border: 1px solid rgba(255,255,255,.22);
+
+        font-size: 12px;
+        font-weight: 700;
+
+        white-space: nowrap;
+    }
+
+
+    /* =========================================================
+       PROGRESS
+    ========================================================= */
+
+    .readiness-progress {
+        background: white;
+        border-radius: 13px;
+
+        padding: 15px 20px;
+        margin-bottom: 22px;
+
+        border: 1px solid #e5eaf1;
+
+        box-shadow:
+            0 5px 18px rgba(15,23,42,.05);
+    }
+
+    .progress-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        margin-bottom: 9px;
+    }
+
+    .progress-title {
+        font-size: 13px;
+        font-weight: 700;
+        color: #334155;
+    }
+
+    .progress-percent {
+        font-size: 12px;
+        font-weight: 700;
+        color: #64748b;
+    }
+
+    .progress-track {
+        height: 7px;
+        background: #e8edf4;
+        border-radius: 20px;
+        overflow: hidden;
+    }
+
+    #readinessProgressBar {
+        width: 0%;
+        height: 100%;
+
+        background: linear-gradient(
+            90deg,
+            #1976d2,
+            #22c55e
+        );
+
+        border-radius: 20px;
+
+        transition: width .35s ease;
+    }
+
+
+    /* =========================================================
+       MAIN GRID
+    ========================================================= */
+
+    .readiness-main-grid {
+        display: grid;
+
+        grid-template-columns:
+            minmax(0, 1.18fr)
+            minmax(360px, .82fr);
+
+        gap: 22px;
+        align-items: stretch;
+    }
+
+
+    /* =========================================================
+       CARD
+    ========================================================= */
+
+    .readiness-card {
+        background: white;
+        border-radius: 16px;
+
+        border: 1px solid #e5eaf1;
+
+        box-shadow:
+            0 7px 24px rgba(15,23,42,.055);
+    }
+
+
+    /* =========================================================
+       CAMERA CARD
+    ========================================================= */
+
+    .camera-card {
+        padding: 24px;
+    }
+
+    .card-heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+
+        gap: 15px;
+        margin-bottom: 17px;
+    }
+
+    .card-title {
+        margin: 0 0 5px;
+
+        font-size: 18px;
+        font-weight: 750;
+
+        color: #172033;
+    }
+
+    .card-description {
+        margin: 0;
+
+        font-size: 13px;
+        line-height: 1.55;
+
+        color: #64748b;
+    }
+
+    .required-label {
+        padding: 5px 9px;
+
+        background: #fff7ed;
+        border: 1px solid #fed7aa;
+
+        color: #c2410c;
+
+        border-radius: 6px;
+
+        font-size: 10px;
+        font-weight: 750;
+
+        white-space: nowrap;
+    }
+
+
+    /* =========================================================
+       CAMERA
+    ========================================================= */
+
+    .camera-frame {
+        position: relative;
+
+        height: 400px;
+
+        background:
+            radial-gradient(
+                circle at center,
+                #1e293b 0,
+                #020617 70%
+            );
+
+        border-radius: 14px;
+        overflow: hidden;
+
+        border: 2px solid #dce4ee;
+    }
+
+    #cameraPreview {
+        width: 100%;
+        height: 100%;
+
+        object-fit: cover;
+
+        display: none;
+
+        transform: scaleX(-1);
+
+        background: #020617;
+    }
+
+    .camera-placeholder {
+        position: absolute;
+        inset: 0;
+
+        display: flex;
+        flex-direction: column;
+
+        justify-content: center;
+        align-items: center;
+
+        text-align: center;
+
+        padding: 30px;
+
+        color: #94a3b8;
+    }
+
+    .camera-placeholder-icon {
+        width: 76px;
+        height: 76px;
+
+        border-radius: 50%;
+
+        background: #172033;
+        border: 1px solid #334155;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        font-size: 32px;
+
+        margin-bottom: 15px;
+    }
+
+    .camera-placeholder-title {
+        margin: 0 0 6px;
+
+        color: #e2e8f0;
+
+        font-size: 17px;
+        font-weight: 700;
+    }
+
+    .camera-placeholder-text {
+        margin: 0;
+
+        font-size: 12px;
+        color: #94a3b8;
+    }
+
+
+    /* =========================================================
+       LIVE BADGE
+    ========================================================= */
+
+    .camera-live-badge {
+        position: absolute;
+
+        top: 14px;
+        left: 14px;
+
+        display: none;
+
+        align-items: center;
+        gap: 7px;
+
+        padding: 7px 10px;
+
+        border-radius: 7px;
+
+        background: rgba(15,23,42,.75);
+
+        color: white;
+
+        font-size: 11px;
+        font-weight: 700;
+
+        backdrop-filter: blur(5px);
+    }
+
+    .live-dot {
+        width: 7px;
+        height: 7px;
+
+        background: #22c55e;
+
+        border-radius: 50%;
+
+        animation: livePulse 1.4s infinite;
+    }
+
+    @keyframes livePulse {
+
+        0% {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        50% {
+            opacity: .45;
+            transform: scale(.75);
+        }
+
+        100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+    }
+
+
+    /* =========================================================
+       CAMERA FOOTER
+    ========================================================= */
+
+    .camera-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        margin-top: 12px;
+
+        font-size: 11px;
+        color: #64748b;
+    }
+
+    .camera-footer-left {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .camera-footer-dot {
+        width: 7px;
+        height: 7px;
+
+        border-radius: 50%;
+
+        background: #94a3b8;
+    }
+
+    .camera-footer-dot.active {
+        background: #22c55e;
+    }
+
+
+    /* =========================================================
+       STUDENT DETAILS
+    ========================================================= */
+
+    .student-details {
+        margin-top: 18px;
+
+        display: grid;
+
+        grid-template-columns:
+            repeat(3, 1fr);
+
+        gap: 10px;
+    }
+
+    .student-detail-box {
+        padding: 13px;
+
+        background: #f8fafc;
+
+        border: 1px solid #e5eaf1;
+
+        border-radius: 10px;
+    }
+
+    .detail-label {
+        display: block;
+
+        margin-bottom: 4px;
+
+        font-size: 10px;
+
+        text-transform: uppercase;
+
+        letter-spacing: .4px;
+
+        color: #64748b;
+
+        font-weight: 700;
+    }
+
+    .detail-value {
+        display: block;
+
+        color: #172033;
+
+        font-size: 13px;
+
+        font-weight: 700;
+
+        overflow: hidden;
+
+        text-overflow: ellipsis;
+
+        white-space: nowrap;
+    }
+
+
+    /* =========================================================
+       SYSTEM CARD
+    ========================================================= */
+
+    .system-card {
+        padding: 24px;
+    }
+
+
+    /* =========================================================
+       CHECK LIST
+    ========================================================= */
+
+    .system-check-list {
+        display: flex;
+        flex-direction: column;
+
+        gap: 10px;
+
+        margin-top: 18px;
+    }
+
+    .system-check {
+        display: flex;
+
+        justify-content: space-between;
+        align-items: center;
+
+        gap: 10px;
+
+        padding: 13px;
+
+        border: 1px solid #e4e9f0;
+
+        border-radius: 11px;
+
+        transition:
+            border-color .2s,
+            background .2s;
+    }
+
+    .system-check.ready {
+        background: #f6fdf8;
+        border-color: #bbf7d0;
+    }
+
+    .system-check.failed {
+        background: #fff8f8;
+        border-color: #fecaca;
+    }
+
+    .check-left {
+        display: flex;
+
+        align-items: center;
+
+        gap: 11px;
+
+        min-width: 0;
+    }
+
+    .check-icon {
+        flex-shrink: 0;
+
+        width: 38px;
+        height: 38px;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 9px;
+
+        background: #eff6ff;
+
+        font-size: 17px;
+    }
+
+    .check-info {
+        min-width: 0;
+    }
+
+    .check-name {
+        margin-bottom: 2px;
+
+        font-size: 13px;
+
+        color: #172033;
+
+        font-weight: 700;
+    }
+
+    .check-description {
+        font-size: 10px;
+        color: #64748b;
+    }
+
+
+    /* =========================================================
+       STATUS
+    ========================================================= */
+
+    .check-status {
+        flex-shrink: 0;
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 5px;
+
+        font-size: 10px;
+
+        font-weight: 750;
+
+        white-space: nowrap;
+    }
+
+    .status-dot {
+        width: 7px;
+        height: 7px;
+
+        border-radius: 50%;
+    }
+
+    .status-pending {
+        color: #b45309;
+    }
+
+    .status-pending .status-dot {
+        background: #f59e0b;
+    }
+
+    .status-success {
+        color: #15803d;
+    }
+
+    .status-success .status-dot {
+        background: #22c55e;
+    }
+
+    .status-danger {
+        color: #dc2626;
+    }
+
+    .status-danger .status-dot {
+        background: #ef4444;
+    }
+
+
+    /* =========================================================
+       MICROPHONE
+    ========================================================= */
+
+    .microphone-test {
+        display: none;
+
+        margin-top: 16px;
+
+        padding: 13px;
+
+        border-radius: 10px;
+
+        background: #f8fafc;
+
+        border: 1px solid #e5eaf1;
+    }
+
+    .microphone-test-header {
+        display: flex;
+
+        justify-content: space-between;
+
+        margin-bottom: 8px;
+
+        font-size: 11px;
+
+        color: #64748b;
+    }
+
+    #micText {
+        font-weight: 700;
+        color: #64748b;
+    }
+
+    .mic-track {
+        height: 7px;
+
+        background: #e2e8f0;
+
+        border-radius: 20px;
+
+        overflow: hidden;
+    }
+
+    #micLevel {
+        width: 0%;
+        height: 100%;
+
+        background: linear-gradient(
+            90deg,
+            #22c55e,
+            #16a34a
+        );
+
+        border-radius: 20px;
+
+        transition: width .08s linear;
+    }
+
+
+    /* =========================================================
+       INSTRUCTIONS
+    ========================================================= */
+
+    .instructions-box {
+        margin-top: 17px;
+
+        padding: 14px;
+
+        border-radius: 11px;
+
+        background: #eff6ff;
+
+        border: 1px solid #bfdbfe;
+    }
+
+    .instructions-heading {
+        display: flex;
+
+        align-items: center;
+
+        gap: 7px;
+
+        margin-bottom: 8px;
+
+        color: #1e40af;
+
+        font-size: 12px;
+
+        font-weight: 750;
+    }
+
+    .instructions-list {
+        margin: 0;
+
+        padding-left: 17px;
+
+        color: #475569;
+
+        font-size: 11px;
+
+        line-height: 1.8;
+    }
+
+
+    /* =========================================================
+       BUTTONS
+    ========================================================= */
+
+    .start-area {
+        margin-top: 18px;
+    }
+
+    .permission-button,
+    .start-button {
+        width: 100%;
+
+        border-radius: 10px;
+
+        padding: 13px 15px;
+
+        font-size: 13px;
+
+        font-weight: 750;
+
+        cursor: pointer;
+
+        transition: .2s ease;
+    }
+
+    .permission-button {
+        background: white;
+
+        color: #2563eb;
+
+        border: 1px solid #2563eb;
+
+        margin-bottom: 9px;
+    }
+
+    .permission-button:hover {
+        background: #eff6ff;
+    }
+
+    .permission-button.ready {
+        color: #15803d;
+
+        border-color: #22c55e;
+
+        background: #f0fdf4;
+
+        cursor: default;
+    }
+
+    .start-button {
+        border: none;
+
+        background: #2563eb;
+
+        color: white;
+
+        box-shadow:
+            0 5px 14px rgba(37,99,235,.18);
+    }
+
+    .start-button:hover:not(:disabled) {
+        background: #1d4ed8;
+
+        transform: translateY(-1px);
+
+        box-shadow:
+            0 7px 18px rgba(37,99,235,.25);
+    }
+
+    .start-button:disabled {
+        background: #cbd5e1;
+
+        color: #64748b;
+
+        cursor: not-allowed;
+
+        box-shadow: none;
+    }
+
+
+    /* =========================================================
+       SECURITY
+    ========================================================= */
+
+    .security-note {
+        margin-top: 12px;
+
+        text-align: center;
+
+        font-size: 10px;
+
+        line-height: 1.5;
+
+        color: #94a3b8;
+    }
+
+
+    /* =========================================================
+       OVERLAY
+    ========================================================= */
+
+    .permission-overlay {
+        position: fixed;
+
+        inset: 0;
+
+        z-index: 9999;
+
+        display: none;
+
+        align-items: center;
+
+        justify-content: center;
+
+        background: rgba(15,23,42,.45);
+
+        backdrop-filter: blur(3px);
+    }
+
+    .permission-loader {
+        width: 300px;
+
+        padding: 25px;
+
+        background: white;
+
+        border-radius: 15px;
+
+        text-align: center;
+
+        box-shadow:
+            0 20px 50px rgba(15,23,42,.25);
+    }
+
+    .loader-spinner {
+        width: 38px;
+        height: 38px;
+
+        margin: 0 auto 14px;
+
+        border: 4px solid #dbeafe;
+
+        border-top-color: #2563eb;
+
+        border-radius: 50%;
+
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+
+        to {
+            transform: rotate(360deg);
+        }
+
+    }
+
+    .loader-title {
+        margin-bottom: 5px;
+
+        color: #172033;
+
+        font-size: 15px;
+
+        font-weight: 750;
+    }
+
+    .loader-text {
+        margin: 0;
+
+        color: #64748b;
+
+        font-size: 11px;
+    }
+
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
+
+    @media(max-width: 1000px) {
+
+        .readiness-main-grid {
+            grid-template-columns: 1fr;
+        }
+
+    }
+
+    @media(max-width: 650px) {
+
+        .exam-readiness-page {
+            padding: 14px;
+        }
+
+        .exam-top-header-inner {
+            flex-direction: column;
+
+            align-items: flex-start;
+        }
+
+        .secure-exam-badge {
+            width: 100%;
+
+            justify-content: center;
+        }
+
+        .camera-card,
+        .system-card {
+            padding: 17px;
+        }
+
+        .camera-frame {
+            height: 310px;
+        }
+
+        .student-details {
+            grid-template-columns: 1fr;
+        }
+
+    }
+
+</style>
+
+
+<!-- =========================================================
+     PAGE
+========================================================= -->
+
+<div class="exam-readiness-page">
+
+    <div class="exam-readiness-container">
+
+        <!-- HEADER -->
+
+        <div class="exam-top-header">
+
+            <div class="exam-top-header-inner">
+
+                <div class="exam-heading">
+
+                    <div class="exam-heading-icon">
+                        📝
+                    </div>
+
+                    <div>
+
+                        <h1>
+                            {{ exam.exam_name }}
+                        </h1>
+
+                        <p>
+                            Examination Readiness & System Verification
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="secure-exam-badge">
+                    🔒 Secure Examination
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- PROGRESS -->
+
+        <div class="readiness-progress">
+
+            <div class="progress-header">
+
+                <span class="progress-title">
+                    System Readiness
+                </span>
+
+                <span
+                    class="progress-percent"
+                    id="readinessPercent">
+
+                    0% Complete
+
+                </span>
+
+            </div>
+
+            <div class="progress-track">
+
+                <div id="readinessProgressBar"></div>
+
+            </div>
+
+        </div>
+
+
+        <!-- MAIN -->
+
+        <div class="readiness-main-grid">
+
+
+            <!-- CAMERA -->
+
+            <div class="readiness-card camera-card">
+
+                <div class="card-heading">
+
+                    <div>
+
+                        <h2 class="card-title">
+                            Camera Verification
+                        </h2>
+
+                        <p class="card-description">
+
+                            Your camera is required for examination
+                            proctoring. Please make sure your face
+                            is clearly visible.
+
+                        </p>
+
+                    </div>
+
+                    <span class="required-label">
+                        REQUIRED
+                    </span>
+
+                </div>
+
+
+                <div class="camera-frame">
+
+                    <video
+                        id="cameraPreview"
+                        autoplay
+                        muted
+                        playsinline>
+                    </video>
+
+
+                    <div
+                        id="cameraPlaceholder"
+                        class="camera-placeholder">
+
+                        <div class="camera-placeholder-icon">
+                            📷
+                        </div>
+
+                        <h3 class="camera-placeholder-title">
+                            Camera Not Connected
+                        </h3>
+
+                        <p class="camera-placeholder-text">
+
+                            Click "Allow Camera & Microphone"
+                            to enable your camera.
+
+                        </p>
+
+                    </div>
+
+
+                    <div
+                        id="cameraLiveBadge"
+                        class="camera-live-badge">
+
+                        <span class="live-dot"></span>
+
+                        CAMERA LIVE
+
+                    </div>
+
+                </div>
+
+
+                <div class="camera-footer">
+
+                    <div class="camera-footer-left">
+
+                        <span
+                            id="cameraFooterDot"
+                            class="camera-footer-dot">
+                        </span>
+
+                        <span id="cameraFooterText">
+
+                            Camera is waiting for permission
+
+                        </span>
+
+                    </div>
+
+                    <span>
+                        Secure Preview
+                    </span>
+
+                </div>
+
+
+                <!-- STUDENT -->
+
+                <div class="student-details">
+
+                    <div class="student-detail-box">
+
+                        <span class="detail-label">
+                            Student
+                        </span>
+
+                        <span class="detail-value">
+
+                            {{ student.first_name }}
+                            {{ student.last_name }}
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="student-detail-box">
+
+                        <span class="detail-label">
+                            Roll Number
+                        </span>
+
+                        <span class="detail-value">
+
+                            {{ student.roll_number }}
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="student-detail-box">
+
+                        <span class="detail-label">
+                            Duration
+                        </span>
+
+                        <span class="detail-value">
+
+                            {{ exam.duration }} Minutes
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- SYSTEM CHECK -->
+
+            <div class="readiness-card system-card">
+
+                <div class="card-heading">
+
+                    <div>
+
+                        <h2 class="card-title">
+                            System Check
+                        </h2>
+
+                        <p class="card-description">
+
+                            Complete all required checks before
+                            entering the examination.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="system-check-list">
+
+
+                    <!-- CAMERA -->
+
+                    <div
+                        id="cameraCheck"
+                        class="system-check">
+
+                        <div class="check-left">
+
+                            <div class="check-icon">
+                                📷
+                            </div>
+
+                            <div class="check-info">
+
+                                <div class="check-name">
+                                    Camera
+                                </div>
+
+                                <div class="check-description">
+                                    Camera permission
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div
+                            id="cameraStatus"
+                            class="check-status status-pending">
+
+                            <span class="status-dot"></span>
+
+                            Waiting
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- MICROPHONE -->
+
+                    <div
+                        id="microphoneCheck"
+                        class="system-check">
+
+                        <div class="check-left">
+
+                            <div class="check-icon">
+                                🎙️
+                            </div>
+
+                            <div class="check-info">
+
+                                <div class="check-name">
+                                    Microphone
+                                </div>
+
+                                <div class="check-description">
+                                    Microphone permission
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div
+                            id="micStatus"
+                            class="check-status status-pending">
+
+                            <span class="status-dot"></span>
+
+                            Waiting
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- BROWSER -->
+
+                    <div
+                        id="browserCheck"
+                        class="system-check">
+
+                        <div class="check-left">
+
+                            <div class="check-icon">
+                                🌐
+                            </div>
+
+                            <div class="check-info">
+
+                                <div class="check-name">
+                                    Browser
+                                </div>
+
+                                <div class="check-description">
+                                    Browser compatibility
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div
+                            id="browserStatus"
+                            class="check-status status-success">
+
+                            <span class="status-dot"></span>
+
+                            Ready
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- NETWORK -->
+
+                    <div
+                        id="networkCheck"
+                        class="system-check">
+
+                        <div class="check-left">
+
+                            <div class="check-icon">
+                                📡
+                            </div>
+
+                            <div class="check-info">
+
+                                <div class="check-name">
+                                    Internet
+                                </div>
+
+                                <div class="check-description">
+                                    Network connectivity
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div
+                            id="networkStatus"
+                            class="check-status status-success">
+
+                            <span class="status-dot"></span>
+
+                            Connected
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- MICROPHONE LEVEL -->
+
+                <div
+                    id="microphoneTest"
+                    class="microphone-test">
+
+                    <div class="microphone-test-header">
+
+                        <span>
+                            Microphone Level
+                        </span>
+
+                        <span id="micText">
+                            Speak to test
+                        </span>
+
+                    </div>
+
+                    <div class="mic-track">
+
+                        <div id="micLevel"></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- INSTRUCTIONS -->
+
+                <div class="instructions-box">
+
+                    <div class="instructions-heading">
+
+                        ℹ️
+
+                        Before You Start
+
+                    </div>
+
+                    <ul class="instructions-list">
+
+                        <li>
+                            Allow camera and microphone permissions.
+                        </li>
+
+                        <li>
+                            Keep your face clearly visible.
+                        </li>
+
+                        <li>
+                            Do not refresh or close the examination window.
+                        </li>
+
+                        <li>
+                            Make sure your internet connection is stable.
+                        </li>
+
+                        <li>
+                            Keep your microphone enabled during the exam.
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+                <!-- BUTTONS -->
+
+                <div class="start-area">
+
+                    <button
+                        type="button"
+                        id="permissionButton"
+                        class="permission-button">
+
+                        🔐 Allow Camera & Microphone
+
+                    </button>
+
+
+                    <!-- IMPORTANT:
+                         This generates:
+                         /student-login/exam/6/start/
+                         if your project includes students.urls
+                         under student-login/
+                    -->
+
+                    <form
+                        method="POST"
+                        action="{% url 'student_start_exam' exam.id %}"
+                        id="examForm">
+
+                        {% csrf_token %}
+
+                        <button
+                            type="submit"
+                            id="startButton"
+                            class="start-button"
+                            disabled>
+
+                            Start Examination →
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+
+                <div class="security-note">
+
+                    🔒 Camera and microphone access is used
+                    only for examination monitoring.
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     LOADING OVERLAY
+========================================================= -->
+
+<div
+    id="permissionOverlay"
+    class="permission-overlay">
+
+    <div class="permission-loader">
+
+        <div class="loader-spinner"></div>
+
+        <div class="loader-title">
+            Checking Your Device
+        </div>
+
+        <p class="loader-text">
+
+            Please allow camera and microphone access
+            when your browser asks.
+
+        </p>
+
+    </div>
+
+</div>
+
+
+<script>
+
+"use strict";
+
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+let cameraStream = null;
+
+let audioContext = null;
+
+let analyser = null;
+
+let microphoneSource = null;
+
+let micAnimation = null;
+
+let permissionRequestRunning = false;
+
+let cameraReady = false;
+
+let microphoneReady = false;
+
+
+/* =========================================================
+   DOM
+========================================================= */
+
+const cameraPreview =
+    document.getElementById("cameraPreview");
+
+const cameraPlaceholder =
+    document.getElementById("cameraPlaceholder");
+
+const cameraLiveBadge =
+    document.getElementById("cameraLiveBadge");
+
+const cameraFooterDot =
+    document.getElementById("cameraFooterDot");
+
+const cameraFooterText =
+    document.getElementById("cameraFooterText");
+
+const cameraStatus =
+    document.getElementById("cameraStatus");
+
+const micStatus =
+    document.getElementById("micStatus");
+
+const browserStatus =
+    document.getElementById("browserStatus");
+
+const networkStatus =
+    document.getElementById("networkStatus");
+
+const cameraCheck =
+    document.getElementById("cameraCheck");
+
+const microphoneCheck =
+    document.getElementById("microphoneCheck");
+
+const browserCheck =
+    document.getElementById("browserCheck");
+
+const networkCheck =
+    document.getElementById("networkCheck");
+
+const startButton =
+    document.getElementById("startButton");
+
+const permissionButton =
+    document.getElementById("permissionButton");
+
+const microphoneTest =
+    document.getElementById("microphoneTest");
+
+const micLevel =
+    document.getElementById("micLevel");
+
+const micText =
+    document.getElementById("micText");
+
+const readinessProgressBar =
+    document.getElementById("readinessProgressBar");
+
+const readinessPercent =
+    document.getElementById("readinessPercent");
+
+const permissionOverlay =
+    document.getElementById("permissionOverlay");
+
+const examForm =
+    document.getElementById("examForm");
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function setStatus(element, type, text) {
+
+    element.className =
+        "check-status " + type;
+
+    element.innerHTML =
+        '<span class="status-dot"></span>' +
+        text;
+
+}
+
+
+/* =========================================================
+   CHECK STATE
+========================================================= */
+
+function setCheckState(element, state) {
+
+    element.classList.remove(
+        "ready",
+        "failed"
+    );
+
+    if (state === "ready") {
+        element.classList.add("ready");
+    }
+
+    if (state === "failed") {
+        element.classList.add("failed");
+    }
+
+}
+
+
+/* =========================================================
+   BROWSER
+========================================================= */
+
+function checkBrowser() {
+
+    const supported =
+        !!(
+            navigator.mediaDevices &&
+            navigator.mediaDevices.getUserMedia
+        );
+
+
+    if (supported) {
+
+        setStatus(
+            browserStatus,
+            "status-success",
+            "Ready"
+        );
+
+        setCheckState(
+            browserCheck,
+            "ready"
+        );
+
+        return true;
+
+    }
+
+
+    setStatus(
+        browserStatus,
+        "status-danger",
+        "Not Supported"
+    );
+
+    setCheckState(
+        browserCheck,
+        "failed"
+    );
+
+    return false;
+
+}
+
+
+/* =========================================================
+   NETWORK
+========================================================= */
+
+function checkNetwork() {
+
+    if (navigator.onLine) {
+
+        setStatus(
+            networkStatus,
+            "status-success",
+            "Connected"
+        );
+
+        setCheckState(
+            networkCheck,
+            "ready"
+        );
+
+        return true;
+
+    }
+
+
+    setStatus(
+        networkStatus,
+        "status-danger",
+        "Offline"
+    );
+
+    setCheckState(
+        networkCheck,
+        "failed"
+    );
+
+    return false;
+
+}
+
+
+/* =========================================================
+   READINESS
+========================================================= */
+
+function updateReadinessProgress() {
+
+    let completed = 0;
+
+
+    if (cameraReady) {
+        completed++;
+    }
+
+
+    if (microphoneReady) {
+        completed++;
+    }
+
+
+    if (checkBrowser()) {
+        completed++;
+    }
+
+
+    if (checkNetwork()) {
+        completed++;
+    }
+
+
+    const percentage =
+        Math.round(
+            (completed / 4) * 100
+        );
+
+
+    readinessProgressBar.style.width =
+        percentage + "%";
+
+
+    readinessPercent.innerText =
+        percentage + "% Complete";
+
+
+    if (
+        cameraReady &&
+        microphoneReady &&
+        checkBrowser() &&
+        checkNetwork()
+    ) {
+
+        startButton.disabled = false;
+
+    }
+    else {
+
+        startButton.disabled = true;
+
+    }
+
+}
+
+
+/* =========================================================
+   CAMERA + MICROPHONE
+========================================================= */
+
+async function requestPermissions() {
+
+    if (permissionRequestRunning) {
+        return;
+    }
+
+
+    if (
+        !navigator.mediaDevices ||
+        !navigator.mediaDevices.getUserMedia
+    ) {
+
+        alert(
+            "Your browser does not support camera and microphone access."
+        );
+
+        return;
+
+    }
+
+
+    permissionRequestRunning = true;
+
+
+    permissionOverlay.style.display =
+        "flex";
+
+
+    setStatus(
+        cameraStatus,
+        "status-pending",
+        "Requesting"
+    );
+
+
+    setStatus(
+        micStatus,
+        "status-pending",
+        "Requesting"
+    );
+
+
+    try {
+
+        const stream =
+            await navigator.mediaDevices.getUserMedia({
+
+                video: {
+                    facingMode: "user"
+                },
+
+                audio: {
+                    echoCancellation: true,
+                    noiseSuppression: true,
+                    autoGainControl: true
+                }
+
+            });
+
+
+        cameraStream = stream;
+
+
+        /* CAMERA */
+
+        cameraPreview.srcObject =
+            cameraStream;
+
+        cameraPreview.style.display =
+            "block";
+
+        cameraPlaceholder.style.display =
+            "none";
+
+        cameraLiveBadge.style.display =
+            "flex";
+
+
+        cameraFooterDot.classList.add(
+            "active"
+        );
+
+        cameraFooterText.innerText =
+            "Camera is active and ready";
+
+
+        cameraReady = true;
+
+
+        setStatus(
+            cameraStatus,
+            "status-success",
+            "Ready"
+        );
+
+
+        setCheckState(
+            cameraCheck,
+            "ready"
+        );
+
+
+        /* MICROPHONE */
+
+        const audioTracks =
+            stream.getAudioTracks();
+
+
+        if (audioTracks.length > 0) {
+
+            microphoneReady = true;
+
+
+            setStatus(
+                micStatus,
+                "status-success",
+                "Ready"
+            );
+
+
+            setCheckState(
+                microphoneCheck,
+                "ready"
+            );
+
+
+            startMicrophoneTest(stream);
+
+        }
+        else {
+
+            microphoneReady = false;
+
+
+            setStatus(
+                micStatus,
+                "status-danger",
+                "Not Available"
+            );
+
+
+            setCheckState(
+                microphoneCheck,
+                "failed"
+            );
+
+        }
+
+
+        permissionButton.innerHTML =
+            "✓ Camera & Microphone Ready";
+
+
+        permissionButton.classList.add(
+            "ready"
+        );
+
+
+        updateReadinessProgress();
+
+    }
+
+    catch(error) {
+
+        console.error(
+            "Media permission error:",
+            error
+        );
+
+
+        cameraReady = false;
+
+        microphoneReady = false;
+
+
+        setStatus(
+            cameraStatus,
+            "status-danger",
+            "Permission Required"
+        );
+
+
+        setStatus(
+            micStatus,
+            "status-danger",
+            "Permission Required"
+        );
+
+
+        setCheckState(
+            cameraCheck,
+            "failed"
+        );
+
+
+        setCheckState(
+            microphoneCheck,
+            "failed"
+        );
+
+
+        cameraFooterDot.classList.remove(
+            "active"
+        );
+
+
+        cameraFooterText.innerText =
+            "Camera permission is required";
+
+
+        permissionButton.innerHTML =
+            "⚠ Allow Camera & Microphone";
+
+
+        permissionButton.classList.remove(
+            "ready"
+        );
+
+
+        updateReadinessProgress();
+
+
+        if (error.name === "NotAllowedError") {
+
+            alert(
+                "Camera and microphone access was blocked.\n\n" +
+                "Please allow camera and microphone access " +
+                "from your browser address bar and try again."
+            );
+
+        }
+
+        else if (error.name === "NotFoundError") {
+
+            alert(
+                "No camera or microphone was detected on this device."
+            );
+
+        }
+
+        else if (error.name === "NotReadableError") {
+
+            alert(
+                "Your camera or microphone is currently being used " +
+                "by another application."
+            );
+
+        }
+
+        else {
+
+            alert(
+                "Unable to access camera and microphone. " +
+                "Please check your device permissions."
+            );
+
+        }
+
+    }
+
+    finally {
+
+        permissionRequestRunning = false;
+
+        permissionOverlay.style.display =
+            "none";
+
+    }
+
+}
+
+
+/* =========================================================
+   MICROPHONE TEST
+========================================================= */
+
+function startMicrophoneTest(stream) {
+
+    try {
+
+        if (audioContext) {
+            audioContext.close();
+        }
+
+
+        audioContext =
+            new (
+                window.AudioContext ||
+                window.webkitAudioContext
+            )();
+
+
+        analyser =
+            audioContext.createAnalyser();
+
+
+        analyser.fftSize = 256;
+
+
+        microphoneSource =
+            audioContext.createMediaStreamSource(
+                stream
+            );
+
+
+        microphoneSource.connect(
+            analyser
+        );
+
+
+        const dataArray =
+            new Uint8Array(
+                analyser.frequencyBinCount
+            );
+
+
+        microphoneTest.style.display =
+            "block";
+
+
+        function updateMicLevel() {
+
+            if (
+                !analyser ||
+                !microphoneReady
+            ) {
+
+                return;
+
+            }
+
+
+            analyser.getByteFrequencyData(
+                dataArray
+            );
+
+
+            let total = 0;
+
+
+            for (
+                let i = 0;
+                i < dataArray.length;
+                i++
+            ) {
+
+                total += dataArray[i];
+
+            }
+
+
+            const average =
+                total / dataArray.length;
+
+
+            const percentage =
+                Math.min(
+                    100,
+                    Math.round(
+                        average * 2
+                    )
+                );
+
+
+            micLevel.style.width =
+                percentage + "%";
+
+
+            if (percentage > 8) {
+
+                micText.innerText =
+                    "Microphone working";
+
+                micText.style.color =
+                    "#15803d";
+
+            }
+            else {
+
+                micText.innerText =
+                    "Speak to test";
+
+                micText.style.color =
+                    "#64748b";
+
+            }
+
+
+            micAnimation =
+                requestAnimationFrame(
+                    updateMicLevel
+                );
+
+        }
+
+
+        updateMicLevel();
+
+    }
+
+    catch(error) {
+
+        console.error(
+            "Microphone test error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   PERMISSION BUTTON
+========================================================= */
+
+permissionButton.addEventListener(
+    "click",
+    function() {
+
+        if (
+            cameraReady &&
+            microphoneReady
+        ) {
+
+            return;
+
+        }
+
+        requestPermissions();
+
+    }
+);
+
+
+/* =========================================================
+   NETWORK
+========================================================= */
+
+window.addEventListener(
+    "online",
+    function() {
+
+        checkNetwork();
+
+        updateReadinessProgress();
+
+    }
+);
+
+
+window.addEventListener(
+    "offline",
+    function() {
+
+        checkNetwork();
+
+        updateReadinessProgress();
+
+    }
+);
+
+
+/* =========================================================
+   FORM SUBMIT
+========================================================= */
+
+examForm.addEventListener(
+    "submit",
+    function(event) {
+
+
+        if (!cameraReady) {
+
+            event.preventDefault();
+
+            alert(
+                "Please allow camera access before starting the examination."
+            );
+
+            return;
+
+        }
+
+
+        if (!microphoneReady) {
+
+            event.preventDefault();
+
+            alert(
+                "Please allow microphone access before starting the examination."
+            );
+
+            return;
+
+        }
+
+
+        if (!checkBrowser()) {
+
+            event.preventDefault();
+
+            alert(
+                "Your browser does not support the required examination features."
+            );
+
+            return;
+
+        }
+
+
+        if (!navigator.onLine) {
+
+            event.preventDefault();
+
+            alert(
+                "You are currently offline. " +
+                "Please check your internet connection."
+            );
+
+            return;
+
+        }
+
+
+        startButton.disabled = true;
+
+        startButton.innerHTML =
+            "Starting Examination...";
+
+
+        /*
+         * IMPORTANT:
+         *
+         * We do NOT redirect with JavaScript.
+         *
+         * The POST request goes to:
+         *
+         * {% url 'student_start_exam' exam.id %}
+         *
+         * Django will process the request and return
+         * the actual exam page.
+         */
+
+    }
+);
+
+
+/* =========================================================
+   STOP CAMERA WHEN LEAVING
+========================================================= */
+
+window.addEventListener(
+    "beforeunload",
+    function() {
+
+        if (micAnimation) {
+
+            cancelAnimationFrame(
+                micAnimation
+            );
+
+        }
+
+
+        if (cameraStream) {
+
+            cameraStream
+                .getTracks()
+                .forEach(
+                    function(track) {
+
+                        track.stop();
+
+                    }
+                );
+
+        }
+
+
+        if (audioContext) {
+
+            audioContext.close();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   INITIAL CHECK
+========================================================= */
+
+window.addEventListener(
+    "load",
+    function() {
+
+        checkBrowser();
+
+        checkNetwork();
+
+        updateReadinessProgress();
+
+    }
+);
+
+</script>
+
+{% endblock %}

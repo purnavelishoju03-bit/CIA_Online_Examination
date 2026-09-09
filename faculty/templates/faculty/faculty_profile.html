@@ -1,0 +1,190 @@
+{% extends "faculty/layouts/base.html" %}
+
+{% block title %}
+My Profile
+{% endblock %}
+
+{% block page_title %}
+My Profile
+{% endblock %}
+
+{% block content %}
+
+<div style="max-width:1000px;margin:auto;">
+
+    <div style="
+        background:linear-gradient(135deg,#2563eb,#0f4c81);
+        color:white;
+        padding:35px;
+        border-radius:16px;
+        margin-bottom:25px;
+    ">
+
+        <div style="
+            display:flex;
+            align-items:center;
+            gap:25px;
+        ">
+
+            <div style="
+                width:90px;
+                height:90px;
+                background:white;
+                color:#2563eb;
+                border-radius:50%;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                font-size:40px;
+                font-weight:bold;
+            ">
+
+                {{ faculty.first_name|first|upper }}
+
+            </div>
+
+            <div>
+
+                <h1 style="font-size:30px;">
+                    {{ faculty.first_name }}
+                    {{ faculty.last_name }}
+                </h1>
+
+                <p style="margin-top:5px;color:#dbeafe;">
+                    Faculty Member
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div style="
+        background:white;
+        border-radius:14px;
+        padding:30px;
+        box-shadow:0 5px 15px rgba(0,0,0,.06);
+    ">
+
+        <h2 style="
+            font-size:22px;
+            margin-bottom:25px;
+        ">
+            Faculty Information
+        </h2>
+
+
+        <div style="
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+            gap:25px;
+        ">
+
+            <div>
+                <p style="color:#64748b;font-size:13px;">
+                    First Name
+                </p>
+                <strong>
+                    {{ faculty.first_name }}
+                </strong>
+            </div>
+
+
+            <div>
+                <p style="color:#64748b;font-size:13px;">
+                    Last Name
+                </p>
+                <strong>
+                    {{ faculty.last_name }}
+                </strong>
+            </div>
+
+
+            <div>
+                <p style="color:#64748b;font-size:13px;">
+                    Email
+                </p>
+                <strong>
+                    {{ faculty.email }}
+                </strong>
+            </div>
+
+
+            <div>
+                <p style="color:#64748b;font-size:13px;">
+                    Phone
+                </p>
+                <strong>
+                    {{ faculty.phone }}
+                </strong>
+            </div>
+
+
+            <div>
+                <p style="color:#64748b;font-size:13px;">
+                    Department
+                </p>
+                <strong>
+                    {{ faculty.department }}
+                </strong>
+            </div>
+
+
+            <div>
+                <p style="color:#64748b;font-size:13px;">
+                    Course
+                </p>
+                <strong>
+                    {{ faculty.course }}
+                </strong>
+            </div>
+
+
+            <div>
+                <p style="color:#64748b;font-size:13px;">
+                    Subject
+                </p>
+                <strong>
+                    {{ faculty.subject }}
+                </strong>
+            </div>
+
+
+            <div>
+                <p style="color:#64748b;font-size:13px;">
+                    Designation
+                </p>
+                <strong>
+                    {{ faculty.designation }}
+                </strong>
+            </div>
+
+
+            <div>
+                <p style="color:#64748b;font-size:13px;">
+                    Qualification
+                </p>
+                <strong>
+                    {{ faculty.qualification }}
+                </strong>
+            </div>
+
+
+            <div>
+                <p style="color:#64748b;font-size:13px;">
+                    Experience
+                </p>
+                <strong>
+                    {{ faculty.experience }} Years
+                </strong>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,273 @@
+{% extends "admin_panel/layouts/base.html" %}
+
+{% block title %}
+Exam Question Mapping
+{% endblock %}
+
+{% block content %}
+
+<div class="max-w-7xl mx-auto">
+
+    <!-- PAGE HEADER -->
+    <div class="flex flex-col md:flex-row md:items-center
+                md:justify-between gap-4 mb-8">
+
+        <div>
+
+            <h1 class="text-3xl font-bold text-slate-800">
+                Exam Question Mapping
+            </h1>
+
+            <p class="text-gray-500 mt-1">
+                Manage questions assigned to examinations.
+            </p>
+
+        </div>
+
+
+        <!-- MAP QUESTIONS BUTTON -->
+        <a href="{% url 'exam_question_mapping' %}"
+           class="inline-flex items-center justify-center
+                  bg-blue-600 hover:bg-blue-700
+                  text-white px-6 py-3
+                  rounded-lg font-semibold
+                  shadow-sm transition">
+
+            + Map Questions
+
+        </a>
+
+    </div>
+
+
+    <!-- MAIN CARD -->
+    <div class="bg-white rounded-2xl shadow-sm
+                border border-gray-200 overflow-hidden">
+
+
+        <!-- CARD HEADER -->
+        <div class="px-6 py-5
+                    border-b border-gray-200
+                    bg-gray-50">
+
+            <div class="flex items-center justify-between">
+
+                <div>
+
+                    <h2 class="text-lg font-semibold text-gray-800">
+                        Mapped Questions
+                    </h2>
+
+                    <p class="text-sm text-gray-500 mt-1">
+                        Questions currently assigned to examinations.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- TABLE -->
+        <div class="overflow-x-auto">
+
+            <table class="min-w-full">
+
+                <!-- TABLE HEADER -->
+                <thead class="bg-slate-800 text-white">
+
+                    <tr>
+
+                        <th class="px-6 py-4 text-left
+                                   text-sm font-semibold">
+                            Exam
+                        </th>
+
+                        <th class="px-6 py-4 text-left
+                                   text-sm font-semibold">
+                            Question
+                        </th>
+
+                        <th class="px-6 py-4 text-left
+                                   text-sm font-semibold">
+                            Subject
+                        </th>
+
+                        <th class="px-6 py-4 text-center
+                                   text-sm font-semibold">
+                            Order
+                        </th>
+
+                        <th class="px-6 py-4 text-center
+                                   text-sm font-semibold">
+                            Action
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <!-- TABLE BODY -->
+                <tbody class="divide-y divide-gray-100">
+
+                    {% for item in questions %}
+
+                    <tr class="hover:bg-blue-50 transition">
+
+
+                        <!-- EXAM -->
+                        <td class="px-6 py-4">
+
+                            <div class="font-semibold text-gray-800">
+                                {{ item.exam.exam_name }}
+                            </div>
+
+                            <div class="text-xs text-gray-400 mt-1">
+                                Exam ID: {{ item.exam.id }}
+                            </div>
+
+                        </td>
+
+
+                        <!-- QUESTION -->
+                        <td class="px-6 py-4">
+
+                            <div class="text-gray-800 max-w-xl leading-6">
+
+                                {{ item.question.question|truncatechars:90 }}
+
+                            </div>
+
+                        </td>
+
+
+                        <!-- SUBJECT -->
+                        <td class="px-6 py-4">
+
+                            <span class="inline-flex
+                                         items-center
+                                         px-3 py-1
+                                         rounded-full
+                                         bg-blue-50
+                                         text-blue-700
+                                         text-sm
+                                         font-medium">
+
+                                {{ item.question.subject }}
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- ORDER -->
+                        <td class="px-6 py-4 text-center">
+
+                            <span class="inline-flex
+                                         items-center justify-center
+                                         w-9 h-9
+                                         rounded-full
+                                         bg-gray-100
+                                         text-gray-700
+                                         font-semibold">
+
+                                {{ item.question_order }}
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- ACTION -->
+                        <td class="px-6 py-4">
+
+                            <div class="flex items-center
+                                        justify-center gap-4">
+
+                                <a href="{% url 'exam_question_edit' item.id %}"
+                                   class="text-blue-600
+                                          hover:text-blue-800
+                                          font-semibold transition">
+
+                                    Edit
+
+                                </a>
+
+
+                                <a href="{% url 'exam_question_delete' item.id %}"
+                                   class="text-red-600
+                                          hover:text-red-800
+                                          font-semibold transition">
+
+                                    Delete
+
+                                </a>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+
+                    {% empty %}
+
+                    <!-- EMPTY STATE -->
+                    <tr>
+
+                        <td colspan="5"
+                            class="px-6 py-16 text-center">
+
+                            <div class="text-5xl mb-4">
+                                📋
+                            </div>
+
+                            <h3 class="text-lg font-semibold
+                                       text-gray-700">
+
+                                No Question Mappings Found
+
+                            </h3>
+
+                            <p class="text-gray-500 mt-2">
+
+                                No questions have been assigned
+                                to an examination yet.
+
+                            </p>
+
+
+                            <a href="{% url 'exam_question_mapping' %}"
+                               class="inline-flex items-center
+                                      mt-5
+                                      bg-blue-600
+                                      hover:bg-blue-700
+                                      text-white
+                                      px-5 py-2.5
+                                      rounded-lg
+                                      font-semibold
+                                      transition">
+
+                                + Map Questions
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

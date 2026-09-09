@@ -1,0 +1,989 @@
+{% extends "admin_panel/layouts/base.html" %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+
+<div class="faculty-page">
+
+    <!-- Page Header -->
+    <div class="page-header">
+
+        <div>
+            <h1>
+                {{ title }}
+            </h1>
+
+            <p>
+                Register and manage faculty members in the
+                CIA Online Examination System.
+            </p>
+        </div>
+
+        <a href="{% url 'faculty_list' %}" class="back-btn">
+            ← Back
+        </a>
+
+    </div>
+
+
+    <!-- Main Card -->
+    <div class="faculty-card">
+
+        <!-- Card Header -->
+        <div class="card-header">
+
+            <div>
+                <h2>Faculty Information</h2>
+
+                <p>
+                    Enter the faculty member's personal,
+                    academic and login information.
+                </p>
+            </div>
+
+        </div>
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <!-- General Errors -->
+
+            {% if form.non_field_errors %}
+
+                <div class="error-box">
+
+                    {% for error in form.non_field_errors %}
+
+                        <p>{{ error }}</p>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- PERSONAL INFORMATION -->
+
+            <div class="section">
+
+                <div class="section-title">
+
+                    <span class="section-number">
+                        01
+                    </span>
+
+                    <div>
+                        <h3>Personal Information</h3>
+
+                        <p>
+                            Basic details of the faculty member
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+
+                    <!-- First Name -->
+
+                    <div class="form-group">
+
+                        <label>
+                            First Name
+                            <span>*</span>
+                        </label>
+
+                        {{ form.first_name }}
+
+                        {% for error in form.first_name.errors %}
+                            <small class="field-error">
+                                {{ error }}
+                            </small>
+                        {% endfor %}
+
+                    </div>
+
+
+                    <!-- Last Name -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Last Name
+                            <span>*</span>
+                        </label>
+
+                        {{ form.last_name }}
+
+                        {% for error in form.last_name.errors %}
+                            <small class="field-error">
+                                {{ error }}
+                            </small>
+                        {% endfor %}
+
+                    </div>
+
+
+                    <!-- Email -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Email Address
+                            <span>*</span>
+                        </label>
+
+                        {{ form.email }}
+
+                        {% for error in form.email.errors %}
+                            <small class="field-error">
+                                {{ error }}
+                            </small>
+                        {% endfor %}
+
+                    </div>
+
+
+                    <!-- Phone -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Phone Number
+                            <span>*</span>
+                        </label>
+
+                        {{ form.phone }}
+
+                        {% for error in form.phone.errors %}
+                            <small class="field-error">
+                                {{ error }}
+                            </small>
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ACADEMIC INFORMATION -->
+
+            <div class="section">
+
+                <div class="section-title">
+
+                    <span class="section-number">
+                        02
+                    </span>
+
+                    <div>
+
+                        <h3>Academic Information</h3>
+
+                        <p>
+                            Department, course and subject details
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+
+                    <!-- Department -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Department
+                            <span>*</span>
+                        </label>
+
+                        {{ form.department }}
+
+                        {% for error in form.department.errors %}
+                            <small class="field-error">
+                                {{ error }}
+                            </small>
+                        {% endfor %}
+
+                    </div>
+
+
+                    <!-- Course -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Course
+                            <span>*</span>
+                        </label>
+
+                        {{ form.course }}
+
+                        {% for error in form.course.errors %}
+                            <small class="field-error">
+                                {{ error }}
+                            </small>
+                        {% endfor %}
+
+                    </div>
+
+
+                    <!-- Subject -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Subject
+                            <span>*</span>
+                        </label>
+
+                        {{ form.subject }}
+
+                        {% for error in form.subject.errors %}
+                            <small class="field-error">
+                                {{ error }}
+                            </small>
+                        {% endfor %}
+
+                    </div>
+
+
+                    <!-- Designation -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Designation
+                            <span>*</span>
+                        </label>
+
+                        {{ form.designation }}
+
+                        {% for error in form.designation.errors %}
+                            <small class="field-error">
+                                {{ error }}
+                            </small>
+                        {% endfor %}
+
+                    </div>
+
+
+                    <!-- Qualification -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Qualification
+                            <span>*</span>
+                        </label>
+
+                        {{ form.qualification }}
+
+                        {% for error in form.qualification.errors %}
+                            <small class="field-error">
+                                {{ error }}
+                            </small>
+                        {% endfor %}
+
+                    </div>
+
+
+                    <!-- Experience -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Experience
+                            <span class="optional">
+                                (Years)
+                            </span>
+                        </label>
+
+                        {{ form.experience }}
+
+                        {% for error in form.experience.errors %}
+                            <small class="field-error">
+                                {{ error }}
+                            </small>
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- LOGIN INFORMATION -->
+
+            <div class="section">
+
+                <div class="section-title">
+
+                    <span class="section-number">
+                        03
+                    </span>
+
+                    <div>
+
+                        <h3>Login Information</h3>
+
+                        <p>
+                            Credentials used to access the faculty portal
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+
+                    <!-- Username -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Username
+                            <span>*</span>
+                        </label>
+
+                        {{ form.username }}
+
+                        {% for error in form.username.errors %}
+                            <small class="field-error">
+                                {{ error }}
+                            </small>
+                        {% endfor %}
+
+                    </div>
+
+
+                    <!-- Password -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Password
+                            <span>*</span>
+                        </label>
+
+                        {{ form.password }}
+
+                        {% for error in form.password.errors %}
+                            <small class="field-error">
+                                {{ error }}
+                            </small>
+                        {% endfor %}
+
+                    </div>
+
+
+                    <!-- Confirm Password -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Confirm Password
+                            <span>*</span>
+                        </label>
+
+                        {{ form.confirm_password }}
+
+                        {% for error in form.confirm_password.errors %}
+                            <small class="field-error">
+                                {{ error }}
+                            </small>
+                        {% endfor %}
+
+                    </div>
+
+
+                    <!-- Status -->
+
+                    <div class="form-group status-group">
+
+                        <label>
+                            Account Status
+                        </label>
+
+                        <div class="status-box">
+
+                            {{ form.status }}
+
+                            <div>
+
+                                <strong>
+                                    Active Faculty
+                                </strong>
+
+                                <p>
+                                    Faculty can access the portal
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- BUTTONS -->
+
+            <div class="form-footer">
+
+                <a href="{% url 'faculty_list' %}"
+                   class="cancel-btn">
+
+                    Cancel
+
+                </a>
+
+                <button type="submit"
+                        class="save-btn">
+
+                    ✓ Save Faculty
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+
+.faculty-page {
+
+    max-width: 1150px;
+
+    margin: 0 auto;
+
+    padding: 10px 0 40px;
+
+}
+
+
+.page-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 25px;
+
+}
+
+
+.page-header h1 {
+
+    font-size: 32px;
+
+    font-weight: 700;
+
+    color: #0f172a;
+
+    margin: 0;
+
+}
+
+
+.page-header p {
+
+    color: #64748b;
+
+    margin-top: 6px;
+
+    font-size: 14px;
+
+}
+
+
+.back-btn {
+
+    background: #475569;
+
+    color: white;
+
+    text-decoration: none;
+
+    padding: 11px 20px;
+
+    border-radius: 8px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    transition: .2s;
+
+}
+
+
+.back-btn:hover {
+
+    background: #334155;
+
+}
+
+
+.faculty-card {
+
+    background: white;
+
+    border-radius: 14px;
+
+    border: 1px solid #e2e8f0;
+
+    box-shadow: 0 8px 25px rgba(15, 23, 42, .08);
+
+    overflow: hidden;
+
+}
+
+
+.card-header {
+
+    padding: 25px 30px;
+
+    border-bottom: 1px solid #e2e8f0;
+
+    background: #f8fafc;
+
+}
+
+
+.card-header h2 {
+
+    margin: 0;
+
+    color: #1e293b;
+
+    font-size: 20px;
+
+}
+
+
+.card-header p {
+
+    margin-top: 5px;
+
+    color: #64748b;
+
+    font-size: 13px;
+
+}
+
+
+form {
+
+    padding: 30px;
+
+}
+
+
+.section {
+
+    margin-bottom: 35px;
+
+}
+
+
+.section-title {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    margin-bottom: 22px;
+
+}
+
+
+.section-number {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 38px;
+
+    height: 38px;
+
+    background: #eff6ff;
+
+    color: #2563eb;
+
+    border-radius: 9px;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+}
+
+
+.section-title h3 {
+
+    margin: 0;
+
+    color: #1e293b;
+
+    font-size: 17px;
+
+}
+
+
+.section-title p {
+
+    margin: 3px 0 0;
+
+    color: #94a3b8;
+
+    font-size: 12px;
+
+}
+
+
+.form-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 22px 28px;
+
+}
+
+
+.form-group label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #334155;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+}
+
+
+.form-group label span {
+
+    color: #ef4444;
+
+}
+
+
+.form-group label .optional {
+
+    color: #94a3b8;
+
+    font-weight: 400;
+
+}
+
+
+.form-input {
+
+    width: 100%;
+
+    min-height: 44px;
+
+    padding: 11px 13px;
+
+    border: 1px solid #cbd5e1;
+
+    border-radius: 8px;
+
+    background: white;
+
+    color: #1e293b;
+
+    font-size: 14px;
+
+    transition: .2s;
+
+}
+
+
+.form-input::placeholder {
+
+    color: #94a3b8;
+
+}
+
+
+.form-input:hover {
+
+    border-color: #94a3b8;
+
+}
+
+
+.form-input:focus {
+
+    outline: none;
+
+    border-color: #2563eb;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(37, 99, 235, .10);
+
+}
+
+
+.status-group {
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+
+.status-box {
+
+    min-height: 44px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 8px;
+
+    padding: 8px 12px;
+
+    background: #f8fafc;
+
+}
+
+
+.status-box input {
+
+    width: 18px;
+
+    height: 18px;
+
+    accent-color: #2563eb;
+
+}
+
+
+.status-box strong {
+
+    font-size: 13px;
+
+    color: #334155;
+
+}
+
+
+.status-box p {
+
+    margin: 2px 0 0;
+
+    font-size: 11px;
+
+    color: #94a3b8;
+
+}
+
+
+.field-error {
+
+    display: block;
+
+    color: #dc2626;
+
+    font-size: 12px;
+
+    margin-top: 5px;
+
+}
+
+
+.error-box {
+
+    background: #fef2f2;
+
+    border: 1px solid #fecaca;
+
+    color: #dc2626;
+
+    padding: 13px 15px;
+
+    border-radius: 8px;
+
+    margin-bottom: 25px;
+
+}
+
+
+.error-box p {
+
+    margin: 3px 0;
+
+    font-size: 13px;
+
+}
+
+
+.form-footer {
+
+    border-top: 1px solid #e2e8f0;
+
+    padding-top: 25px;
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 12px;
+
+}
+
+
+.cancel-btn {
+
+    padding: 12px 22px;
+
+    background: #e2e8f0;
+
+    color: #334155;
+
+    border-radius: 8px;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+}
+
+
+.cancel-btn:hover {
+
+    background: #cbd5e1;
+
+}
+
+
+.save-btn {
+
+    border: none;
+
+    padding: 12px 28px;
+
+    background: #2563eb;
+
+    color: white;
+
+    border-radius: 8px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-shadow: 0 4px 10px rgba(37, 99, 235, .20);
+
+}
+
+
+.save-btn:hover {
+
+    background: #1d4ed8;
+
+}
+
+
+@media(max-width: 768px) {
+
+    .faculty-page {
+
+        padding: 10px 15px 30px;
+
+    }
+
+
+    .page-header {
+
+        align-items: flex-start;
+
+        gap: 15px;
+
+    }
+
+
+    .page-header h1 {
+
+        font-size: 25px;
+
+    }
+
+
+    .form-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    form {
+
+        padding: 20px;
+
+    }
+
+}
+
+
+</style>
+
+{% endblock %}

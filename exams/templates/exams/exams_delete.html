@@ -1,0 +1,275 @@
+{% extends "admin_panel/layouts/base.html" %}
+
+{% block title %}Delete Exam{% endblock %}
+
+
+{% block content %}
+
+
+<style>
+
+.delete-page{
+
+    min-height:80vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:#f8fafc;
+
+}
+
+
+
+.delete-card{
+
+    background:white;
+
+    width:450px;
+
+    padding:35px;
+
+    border-radius:16px;
+
+    border:1px solid #e2e8f0;
+
+    box-shadow:0 10px 25px rgba(15,23,42,.1);
+
+    text-align:center;
+
+}
+
+
+
+.warning-icon{
+
+    width:70px;
+
+    height:70px;
+
+    background:#fee2e2;
+
+    color:#dc2626;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    margin:auto;
+
+    font-size:35px;
+
+}
+
+
+
+.title{
+
+    font-size:24px;
+
+    font-weight:700;
+
+    color:#0f172a;
+
+    margin-top:20px;
+
+}
+
+
+
+.message{
+
+    color:#64748b;
+
+    margin-top:10px;
+
+    line-height:1.6;
+
+}
+
+
+
+.exam-name{
+
+    color:#2563eb;
+
+    font-weight:700;
+
+}
+
+
+
+.buttons{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:15px;
+
+    margin-top:30px;
+
+}
+
+
+
+.cancel-btn{
+
+    background:#e2e8f0;
+
+    color:#334155;
+
+    padding:12px 25px;
+
+    border-radius:10px;
+
+    font-weight:600;
+
+}
+
+
+
+.cancel-btn:hover{
+
+    background:#cbd5e1;
+
+}
+
+
+
+.delete-btn{
+
+    background:#dc2626;
+
+    color:white;
+
+    padding:12px 25px;
+
+    border-radius:10px;
+
+    font-weight:600;
+
+}
+
+
+
+.delete-btn:hover{
+
+    background:#b91c1c;
+
+}
+
+
+</style>
+
+
+
+
+
+<div class="delete-page">
+
+
+
+<div class="delete-card">
+
+
+
+<div class="warning-icon">
+
+!
+
+</div>
+
+
+
+
+<h1 class="title">
+
+Delete Examination?
+
+</h1>
+
+
+
+
+<p class="message">
+
+Are you sure you want to delete
+
+<br>
+
+<span class="exam-name">
+
+{{ exam.exam_name }}
+
+</span>
+
+?
+
+<br>
+
+This action cannot be undone.
+
+</p>
+
+
+
+
+
+
+<form method="POST">
+
+
+{% csrf_token %}
+
+
+
+<div class="buttons">
+
+
+
+<a href="{% url 'exam_list' %}"
+
+class="cancel-btn">
+
+Cancel
+
+</a>
+
+
+
+
+<button type="submit"
+
+class="delete-btn">
+
+Yes, Delete
+
+</button>
+
+
+
+
+</div>
+
+
+</form>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+{% endblock %}

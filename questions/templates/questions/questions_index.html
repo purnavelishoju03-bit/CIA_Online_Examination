@@ -1,0 +1,227 @@
+{% extends "admin_panel/layouts/base.html" %}
+
+
+{% block title %}
+Question Bank
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<div class="flex justify-between items-center mb-6">
+
+
+<h1 class="text-3xl font-bold text-slate-800">
+Question Bank
+</h1>
+
+
+<div class="flex gap-3">
+    <a href="{% url 'question_upload_excel' %}"
+    class="bg-green-600 text-white px-5 py-2 rounded-lg">
+        Upload Questions
+    </a>
+
+    <a href="{% url 'question_upload_excel' %}"
+       class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg">
+        Upload Excel
+    </a>
+
+</div>
+
+
+</div>
+
+
+
+
+<div class="bg-white rounded-xl shadow overflow-hidden">
+
+<form method="GET" class="flex gap-4 mb-6">
+
+    <select id="course" name="course" class="border rounded-lg px-4 py-2">        <option value="">Select Course</option>
+
+        {% for course in courses %}
+        <option value="{{ course.id }}"
+            {% if selected_course == course.id|stringformat:"s" %}selected{% endif %}>
+            {{ course.name }}
+        </option>
+        {% endfor %}
+    </select>
+
+    <select id="subject" name="subject" class="border rounded-lg px-4 py-2">        <option value="">Select Subject</option>
+
+        {% for subject in subjects %}
+        <option value="{{ subject.id }}"
+            {% if selected_subject == subject.id|stringformat:"s" %}selected{% endif %}>
+            {{ subject.name }}
+        </option>
+        {% endfor %}
+    </select>
+
+    <button type="submit"
+            class="bg-blue-600 text-white px-6 py-2 rounded-lg">
+        Search
+    </button>
+
+</form>
+<table class="w-full">
+
+
+<thead class="bg-slate-800 text-white">
+
+
+<tr>
+
+<th class="p-3">Exam</th>
+
+<th class="p-3">Subject</th>
+
+<th class="p-3">Question</th>
+
+<th class="p-3">Answer</th>
+
+<th class="p-3">Marks</th>
+
+<th class="p-3">Level</th>
+
+<th class="p-3">Action</th>
+
+
+</tr>
+
+
+</thead>
+
+
+
+
+<tbody>
+
+
+{% for question in questions %}
+
+
+<tr class="border-b">
+
+
+<td class="p-3">
+{{question.exam.exam_name}}
+</td>
+
+
+
+<td class="p-3">
+{{question.subject}}
+</td>
+
+
+
+<td class="p-3">
+{{question.question|truncatechars:50}}
+</td>
+
+
+
+<td class="p-3">
+{{question.correct_answer}}
+</td>
+
+
+
+<td class="p-3">
+{{question.marks}}
+</td>
+
+
+
+<td class="p-3">
+{{question.difficulty}}
+</td>
+
+
+
+<td class="p-3">
+
+
+<a href="{% url 'question_view' question.id %}"
+class="text-blue-600 mr-3">
+
+View
+
+</a>
+
+
+
+<a href="{% url 'question_delete' question.id %}"
+class="text-red-600">
+
+Delete
+
+</a>
+
+
+
+</td>
+
+
+
+</tr>
+
+
+
+{% empty %}
+
+
+<tr>
+
+<td colspan="7"
+class="text-center p-5 text-gray-500">
+
+No Questions Added
+
+</td>
+
+</tr>
+
+
+{% endfor %}
+
+
+
+</tbody>
+
+
+</table>
+
+
+</div>
+
+<script>
+document.getElementById("course").addEventListener("change", function () {
+
+    let courseId = this.value;
+
+    fetch(`/admin-panel/questions/load-subjects/?course=${courseId}`)
+        .then(response => response.json())
+        .then(data => {
+
+            let subject = document.getElementById("subject");
+
+            subject.innerHTML = '<option value="">Select Subject</option>';
+
+            data.forEach(function(item){
+
+                subject.innerHTML +=
+                    `<option value="${item.id}">${item.name}</option>`;
+
+            });
+
+        });
+
+});
+</script>
+
+{% endblock %}

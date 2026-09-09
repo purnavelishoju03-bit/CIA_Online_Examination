@@ -1,0 +1,270 @@
+{% extends 'admin_panel/layouts/base.html' %}
+
+{% block title %}Reports{% endblock %}
+
+{% block content %}
+
+<div class="max-w-7xl mx-auto">
+
+    <!-- Page Header -->
+    <div class="mb-8">
+
+        <h1 class="text-3xl font-bold text-gray-800">
+            Examination Reports
+        </h1>
+
+        <p class="text-gray-500 mt-1">
+            Monitor examination performance and generate reports.
+        </p>
+
+    </div>
+
+
+    <!-- Summary Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+
+
+        <!-- Total Exams -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+
+            <div class="flex items-center justify-between">
+
+                <div>
+                    <p class="text-sm text-gray-500">
+                        Total Exams
+                    </p>
+
+                    <h2 class="text-3xl font-bold text-blue-600 mt-2">
+                        {{ total_exams }}
+                    </h2>
+                </div>
+
+                <div class="text-3xl">
+                    📝
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Total Students -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+
+            <div class="flex items-center justify-between">
+
+                <div>
+                    <p class="text-sm text-gray-500">
+                        Total Students
+                    </p>
+
+                    <h2 class="text-3xl font-bold text-purple-600 mt-2">
+                        {{ total_students }}
+                    </h2>
+                </div>
+
+                <div class="text-3xl">
+                    👨‍🎓
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Passed -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+
+            <div class="flex items-center justify-between">
+
+                <div>
+                    <p class="text-sm text-gray-500">
+                        Passed
+                    </p>
+
+                    <h2 class="text-3xl font-bold text-green-600 mt-2">
+                        {{ passed_students }}
+                    </h2>
+                </div>
+
+                <div class="text-3xl">
+                    ✅
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Failed -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+
+            <div class="flex items-center justify-between">
+
+                <div>
+                    <p class="text-sm text-gray-500">
+                        Failed
+                    </p>
+
+                    <h2 class="text-3xl font-bold text-red-600 mt-2">
+                        {{ failed_students }}
+                    </h2>
+                </div>
+
+                <div class="text-3xl">
+                    ❌
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Reports -->
+
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200">
+
+        <div class="px-6 py-5 border-b border-gray-200">
+
+            <h2 class="text-xl font-bold text-gray-800">
+                Generate Reports
+            </h2>
+
+            <p class="text-sm text-gray-500 mt-1">
+                Select a report type.
+            </p>
+
+        </div>
+
+
+        <div class="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+
+            <!-- Exam Report -->
+
+            <a href="#"
+               class="border border-gray-200 rounded-xl p-6 hover:shadow-lg hover:border-blue-500 transition">
+
+                <div class="text-3xl mb-4">
+                    📝
+                </div>
+
+                <h3 class="text-lg font-bold text-gray-800">
+                    Exam-wise Report
+                </h3>
+
+                <p class="text-sm text-gray-500 mt-2">
+                    View examination performance and student participation.
+                </p>
+
+            </a>
+
+
+            <!-- Student Report -->
+
+            <a href="#"
+               class="border border-gray-200 rounded-xl p-6 hover:shadow-lg hover:border-purple-500 transition">
+
+                <div class="text-3xl mb-4">
+                    👨‍🎓
+                </div>
+
+                <h3 class="text-lg font-bold text-gray-800">
+                    Student-wise Report
+                </h3>
+
+                <p class="text-sm text-gray-500 mt-2">
+                    View individual student results.
+                </p>
+
+            </a>
+
+
+            <!-- Subject Report -->
+
+            <a href="#"
+               class="border border-gray-200 rounded-xl p-6 hover:shadow-lg hover:border-green-500 transition">
+
+                <div class="text-3xl mb-4">
+                    📚
+                </div>
+
+                <h3 class="text-lg font-bold text-gray-800">
+                    Subject-wise Report
+                </h3>
+
+                <p class="text-sm text-gray-500 mt-2">
+                    Analyze performance by subject.
+                </p>
+
+            </a>
+
+
+            <!-- Faculty Report -->
+
+            <a href="#"
+               class="border border-gray-200 rounded-xl p-6 hover:shadow-lg hover:border-orange-500 transition">
+
+                <div class="text-3xl mb-4">
+                    👨‍🏫
+                </div>
+
+                <h3 class="text-lg font-bold text-gray-800">
+                    Faculty-wise Report
+                </h3>
+
+                <p class="text-sm text-gray-500 mt-2">
+                    View faculty examination information.
+                </p>
+
+            </a>
+
+
+            <!-- Pass Fail -->
+
+            <a href="#"
+               class="border border-gray-200 rounded-xl p-6 hover:shadow-lg hover:border-red-500 transition">
+
+                <div class="text-3xl mb-4">
+                    📊
+                </div>
+
+                <h3 class="text-lg font-bold text-gray-800">
+                    Pass / Fail Report
+                </h3>
+
+                <p class="text-sm text-gray-500 mt-2">
+                    Analyze pass and fail statistics.
+                </p>
+
+            </a>
+
+
+            <!-- Marks Analysis -->
+
+            <a href="#"
+               class="border border-gray-200 rounded-xl p-6 hover:shadow-lg hover:border-indigo-500 transition">
+
+                <div class="text-3xl mb-4">
+                    📈
+                </div>
+
+                <h3 class="text-lg font-bold text-gray-800">
+                    Marks Analysis
+                </h3>
+
+                <p class="text-sm text-gray-500 mt-2">
+                    Analyze marks and percentages.
+                </p>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

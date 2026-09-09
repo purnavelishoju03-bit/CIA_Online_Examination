@@ -1,0 +1,49 @@
+{% extends 'admin_panel/layouts/base.html' %}
+
+{% block title %}Delete Department{% endblock %}
+
+{% block content %}
+
+<div class="bg-white rounded-lg shadow p-6">
+
+<h2 class="text-2xl font-bold">
+
+Delete Department
+
+</h2>
+
+<p class="mt-4">
+
+Are you sure you want to delete
+
+<strong>
+
+{{ department.name }}
+
+</strong>?
+
+</p>
+
+<form method="POST" class="mt-6">
+
+{% csrf_token %}
+
+<button
+class="bg-red-600 text-white px-5 py-2 rounded-lg">
+
+Delete
+
+</button>
+
+<a href="{% url 'department_list' %}"
+class="ml-3">
+
+Cancel
+
+</a>
+
+</form>
+
+</div>
+
+{% endblock %}

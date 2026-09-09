@@ -1,0 +1,50 @@
+{% extends 'admin_panel/layouts/base.html' %}
+
+{% block title %}Delete Faculty{% endblock %}
+
+{% block content %}
+
+<div class="max-w-xl mx-auto bg-white p-8 rounded-xl shadow">
+
+<h2 class="text-2xl font-bold text-red-600 mb-6">
+
+Delete Faculty
+
+</h2>
+
+<p>
+
+Are you sure you want to delete
+
+<strong>
+
+{{ faculty.first_name }} {{ faculty.last_name }}
+
+</strong>?
+
+</p>
+
+<form method="POST" class="mt-6">
+
+{% csrf_token %}
+
+<button
+type="submit"
+class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg">
+
+Delete
+
+</button>
+
+<a href="{% url 'faculty_list' %}"
+class="ml-4">
+
+Cancel
+
+</a>
+
+</form>
+
+</div>
+
+{% endblock %}

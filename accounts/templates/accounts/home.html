@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Digital Internal Assessment Portal</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        /* ================= HEADER ================= */
+
+        header {
+            background: #0f4c81;
+            color: white;
+            padding: 18px 60px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            position: sticky;
+            top: 0;
+            z-index: 999;
+
+            box-shadow: 0 4px 15px rgba(0, 0, 0, .15);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .logo-box {
+            background: white;
+            color: #0f4c81;
+
+            padding: 8px 14px;
+            border-radius: 8px;
+
+            font-weight: bold;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+
+            margin-left: 25px;
+
+            font-weight: 500;
+
+            transition: .3s;
+        }
+
+        nav a:hover {
+            color: #ffd54f;
+        }
+
+        /* ================= HERO ================= */
+
+        .hero {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding: 80px 70px;
+
+            background: linear-gradient(
+                135deg,
+                #eaf3ff,
+                #ffffff
+            );
+        }
+
+        .hero-text {
+            width: 55%;
+        }
+
+        .hero-text h1 {
+            font-size: 50px;
+            color: #0f172a;
+
+            margin-bottom: 20px;
+        }
+
+        .hero-text p {
+            font-size: 18px;
+            color: #475569;
+
+            line-height: 32px;
+        }
+
+        /* ================= LOGIN BUTTONS ================= */
+
+        .buttons {
+            margin-top: 40px;
+
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .btn {
+            display: inline-block;
+
+            padding: 15px 28px;
+
+            text-decoration: none;
+
+            border-radius: 8px;
+
+            font-size: 16px;
+            font-weight: 600;
+
+            transition: .3s;
+        }
+
+        /* Student */
+
+        .student {
+            background: #2563eb;
+            color: white;
+        }
+
+        .student:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+        }
+
+        /* Faculty */
+
+        .faculty {
+            background: #7c3aed;
+            color: white;
+        }
+
+        .faculty:hover {
+            background: #6d28d9;
+            transform: translateY(-2px);
+        }
+
+        /* Administrator */
+
+        .admin {
+            background: #16a34a;
+            color: white;
+        }
+
+        .admin:hover {
+            background: #15803d;
+            transform: translateY(-2px);
+        }
+
+        /* ================= HERO IMAGE ================= */
+
+        .hero-image {
+            width: 40%;
+            text-align: center;
+        }
+
+        .hero-image img {
+            width: 100%;
+            max-width: 550px;
+
+            border-radius: 20px;
+
+            box-shadow: 0 15px 35px rgba(0, 0, 0, .12);
+        }
+
+        /* ================= FEATURES ================= */
+
+        .features {
+            padding: 80px 70px;
+            background: white;
+        }
+
+        .section-title {
+            text-align: center;
+
+            font-size: 36px;
+            color: #0f172a;
+
+            margin-bottom: 50px;
+        }
+
+        .cards {
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(250px, 1fr));
+
+            gap: 30px;
+        }
+
+        .card {
+            background: white;
+
+            border-radius: 16px;
+
+            padding: 35px;
+
+            text-align: center;
+
+            box-shadow:
+                0 8px 25px rgba(0, 0, 0, .08);
+
+            transition: .3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        .icon {
+            font-size: 55px;
+        }
+
+        .card h3 {
+            margin: 20px 0;
+
+            color: #0f172a;
+        }
+
+        .card p {
+            color: #64748b;
+
+            line-height: 28px;
+        }
+
+        /* ================= STATS ================= */
+
+        .stats {
+            background: #0f4c81;
+
+            color: white;
+
+            padding: 70px;
+        }
+
+        .stats-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(220px, 1fr));
+
+            gap: 30px;
+
+            text-align: center;
+        }
+
+        .stat h2 {
+            font-size: 45px;
+        }
+
+        .stat p {
+            margin-top: 10px;
+
+            font-size: 18px;
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            background: #0f172a;
+
+            color: white;
+
+            text-align: center;
+
+            padding: 25px;
+        }
+
+        footer p {
+            margin: 6px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media(max-width: 900px) {
+
+            header {
+                flex-direction: column;
+
+                padding: 20px;
+            }
+
+            nav {
+                margin-top: 20px;
+
+                flex-wrap: wrap;
+
+                justify-content: center;
+            }
+
+            nav a {
+                margin: 5px 10px;
+            }
+
+            .hero {
+                flex-direction: column;
+
+                text-align: center;
+
+                padding: 60px 25px;
+            }
+
+            .hero-text,
+            .hero-image {
+                width: 100%;
+            }
+
+            .hero-text h1 {
+                font-size: 38px;
+            }
+
+            .hero-image {
+                margin-top: 40px;
+            }
+
+            .buttons {
+                justify-content: center;
+            }
+
+            .features {
+                padding: 60px 25px;
+            }
+
+            .stats {
+                padding: 50px 25px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ================= HEADER ================= -->
+
+    <header>
+
+        <div class="logo">
+
+            <div class="logo-box">
+                DIAP
+            </div>
+
+            <div>
+                Digital Internal Assessment Portal
+            </div>
+
+        </div>
+
+
+        <nav>
+
+            <a href="{% url 'home' %}">
+                Home
+            </a>
+
+            <a href="/student-login/">
+                Student Login
+            </a>
+
+            <!-- FACULTY LOGIN -->
+
+            <a href="/faculty/login/">
+                Faculty Login
+            </a>
+
+            <!-- ADMIN LOGIN -->
+
+            <a href="{% url 'admin_login' %}">
+                Administrator Login
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <!-- ================= HERO ================= -->
+
+    <section class="hero">
+
+
+        <div class="hero-text">
+
+            <h1>
+                Digital Internal Assessment Portal
+            </h1>
+
+
+            <p>
+
+                A secure and intelligent web-based examination
+                platform designed for colleges and universities.
+
+                Conduct Continuous Internal Assessments (CIA),
+                manage question banks, schedule examinations,
+                evaluate students automatically, and generate
+                instant reports with accuracy and transparency.
+
+            </p>
+
+
+            <!-- LOGIN BUTTONS -->
+
+            <div class="buttons">
+
+
+                <!-- STUDENT -->
+
+                <a href="/student-login/"
+                   class="btn student">
+
+                    🎓 Student Login
+
+                </a>
+
+
+                <!-- FACULTY -->
+
+                <a href="/faculty/login/"
+                   class="btn faculty">
+
+                    👨‍🏫 Faculty Login
+
+                </a>
+
+
+                <!-- ADMIN -->
+
+                <a href="{% url 'admin_login' %}"
+                   class="btn admin">
+
+                    👨‍💼 Administrator Login
+
+                </a>
+
+
+            </div>
+
+
+        </div>
+
+
+        <!-- HERO IMAGE -->
+
+        <div class="hero-image">
+
+            <img
+                src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=900"
+                alt="Digital Assessment"
+            >
+
+        </div>
+
+
+    </section>
+
+
+    <!-- ================= FEATURES ================= -->
+
+    <section class="features">
+
+
+        <h2 class="section-title">
+            Portal Features
+        </h2>
+
+
+        <div class="cards">
+
+
+            <!-- ONLINE ASSESSMENT -->
+
+            <div class="card">
+
+                <div class="icon">
+                    📝
+                </div>
+
+                <h3>
+                    Online Assessments
+                </h3>
+
+                <p>
+
+                    Conduct secure internal examinations
+                    with timer, auto submission and
+                    question palette.
+
+                </p>
+
+            </div>
+
+
+            <!-- QUESTION BANK -->
+
+            <div class="card">
+
+                <div class="icon">
+                    📚
+                </div>
+
+                <h3>
+                    Question Bank
+                </h3>
+
+                <p>
+
+                    Maintain department-wise question
+                    banks with difficulty levels and
+                    marks allocation.
+
+                </p>
+
+            </div>
+
+
+            <!-- EVALUATION -->
+
+            <div class="card">
+
+                <div class="icon">
+                    📊
+                </div>
+
+                <h3>
+                    Instant Evaluation
+                </h3>
+
+                <p>
+
+                    Automatic result generation,
+                    percentage calculation,
+                    pass/fail status and reports.
+
+                </p>
+
+            </div>
+
+
+            <!-- SECURITY -->
+
+            <div class="card">
+
+                <div class="icon">
+                    🔒
+                </div>
+
+                <h3>
+                    Secure Access
+                </h3>
+
+                <p>
+
+                    Separate login modules for
+                    Students, Faculty and
+                    Administrators.
+
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= STATS ================= -->
+
+    <section class="stats">
+
+
+        <div class="stats-grid">
+
+
+            <div class="stat">
+
+                <h2>
+                    100%
+                </h2>
+
+                <p>
+                    Digital Assessment
+                </p>
+
+            </div>
+
+
+            <div class="stat">
+
+                <h2>
+                    24×7
+                </h2>
+
+                <p>
+                    Online Availability
+                </p>
+
+            </div>
+
+
+            <div class="stat">
+
+                <h2>
+                    Instant
+                </h2>
+
+                <p>
+                    Result Processing
+                </p>
+
+            </div>
+
+
+            <div class="stat">
+
+                <h2>
+                    Secure
+                </h2>
+
+                <p>
+                    Authentication System
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <p>
+
+            <strong>
+                Digital Internal Assessment Portal (DIAP)
+            </strong>
+
+        </p>
+
+
+        <p>
+
+            A Smart Examination Management System
+            for Colleges & Universities
+
+        </p>
+
+
+        <p>
+
+            © 2026 Digital Internal Assessment Portal
+            |
+            Developed by
+            <strong>
+                Purna Velishoju
+            </strong>
+
+        </p>
+
+    </footer>
+
+
+</body>
+
+</html>

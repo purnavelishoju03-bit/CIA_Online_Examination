@@ -1,0 +1,42 @@
+{% extends 'admin_panel/layouts/base.html' %}
+
+{% block title %}Edit Faculty{% endblock %}
+
+{% block content %}
+
+<h2 class="text-3xl font-bold mb-6">
+    Edit Faculty
+</h2>
+
+<div class="bg-white p-8 rounded-xl shadow">
+
+<form method="POST">
+
+{% csrf_token %}
+
+{{ form.as_p }}
+
+<div class="mt-6">
+
+<button
+type="submit"
+class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg">
+
+Update Faculty
+
+</button>
+
+<a href="{% url 'faculty_list' %}"
+class="ml-4">
+
+Cancel
+
+</a>
+
+</div>
+
+</form>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,108 @@
+{% extends 'admin_panel/layouts/base.html' %}
+
+{% block title %}Courses{% endblock %}
+
+{% block content %}
+
+<div class="flex justify-between items-center mb-6">
+
+    <h1 class="text-3xl font-bold">
+        Courses
+    </h1>
+
+    <a href="{% url 'course_create' %}"
+       class="bg-blue-600 text-white px-5 py-2 rounded-lg">
+
+        Add Course
+
+    </a>
+
+</div>
+
+<table class="w-full bg-white rounded-lg shadow">
+
+    <thead>
+
+        <tr class="bg-gray-100">
+
+            <th class="p-3">Department</th>
+
+            <th>Name</th>
+
+            <th>Code</th>
+
+            <th>Duration</th>
+
+            <th>Status</th>
+
+            <th>Actions</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+    {% for course in courses %}
+
+        <tr class="border-b">
+
+            <td class="p-3">
+                {{ course.department.name }}
+            </td>
+
+            <td>
+                {{ course.name }}
+            </td>
+
+            <td>
+                {{ course.code }}
+            </td>
+
+            <td>
+                {{ course.duration }} Years
+            </td>
+
+            <td>
+                {% if course.is_active %}
+                    Active
+                {% else %}
+                    Inactive
+                {% endif %}
+            </td>
+
+            <td>
+
+                <a href="{% url 'course_edit' course.id %}" class="text-blue-600">
+                    Edit
+                </a>
+
+                |
+
+                <a href="{% url 'course_delete' course.id %}" class="text-red-600">
+                    Delete
+                </a>
+
+            </td>
+
+        </tr>
+
+    {% empty %}
+
+        <tr>
+
+            <td colspan="6" class="text-center p-5">
+
+                No Courses Found
+
+            </td>
+
+        </tr>
+
+    {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% endblock %}

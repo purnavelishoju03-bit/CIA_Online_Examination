@@ -1,0 +1,405 @@
+{% extends "students/layouts/base.html" %}
+
+{% block title %}
+My Profile
+{% endblock %}
+
+
+{% block content %}
+
+<div class="max-w-6xl mx-auto">
+
+
+    <!-- =====================================================
+         PAGE HEADER
+    ====================================================== -->
+
+    <div class="mb-6">
+
+        <h1 class="text-3xl font-bold text-slate-800">
+            My Profile
+        </h1>
+
+        <p class="text-slate-500 mt-1">
+            View your student account information
+        </p>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         PROFILE HEADER
+    ====================================================== -->
+
+    <div class="bg-white rounded-xl shadow-sm border
+                border-slate-200 overflow-hidden">
+
+
+        <!-- BLUE HEADER -->
+
+        <div class="bg-gradient-to-r
+                    from-blue-700
+                    to-blue-500
+                    px-8 py-7">
+
+            <div class="flex items-center gap-5">
+
+
+                <!-- PROFILE ICON -->
+
+                <div class="w-20 h-20
+                            rounded-full
+                            bg-white
+                            flex items-center
+                            justify-center
+                            text-4xl
+                            shadow">
+
+                    👤
+
+                </div>
+
+
+                <!-- NAME -->
+
+                <div class="text-white">
+
+                    <h2 class="text-2xl font-bold">
+
+                        {{ student.first_name }}
+
+                        {% if student.last_name %}
+                            {{ student.last_name }}
+                        {% endif %}
+
+                    </h2>
+
+                    <p class="text-blue-100 mt-1">
+
+                        Roll Number:
+                        {{ student.roll_number }}
+
+                    </p>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             PERSONAL INFORMATION
+        ================================================== -->
+
+        <div class="p-8">
+
+            <h3 class="text-lg font-semibold
+                       text-slate-800 mb-5">
+
+                Personal Information
+
+            </h3>
+
+
+            <div class="grid grid-cols-1
+                        md:grid-cols-2
+                        gap-6">
+
+
+                <!-- FIRST NAME -->
+
+                <div>
+
+                    <p class="text-sm text-slate-500">
+                        First Name
+                    </p>
+
+                    <p class="mt-1 font-medium text-slate-800">
+
+                        {{ student.first_name|default:"-" }}
+
+                    </p>
+
+                </div>
+
+
+                <!-- LAST NAME -->
+
+                <div>
+
+                    <p class="text-sm text-slate-500">
+                        Last Name
+                    </p>
+
+                    <p class="mt-1 font-medium text-slate-800">
+
+                        {{ student.last_name|default:"-" }}
+
+                    </p>
+
+                </div>
+
+
+                <!-- ROLL NUMBER -->
+
+                <div>
+
+                    <p class="text-sm text-slate-500">
+                        Roll Number
+                    </p>
+
+                    <p class="mt-1 font-medium text-slate-800">
+
+                        {{ student.roll_number }}
+
+                    </p>
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div>
+
+                    <p class="text-sm text-slate-500">
+                        Email
+                    </p>
+
+                    <p class="mt-1 font-medium text-slate-800">
+
+                        {{ student.email|default:"Not provided" }}
+
+                    </p>
+
+                </div>
+
+
+                <!-- PHONE -->
+
+                <div>
+
+                    <p class="text-sm text-slate-500">
+                        Phone
+                    </p>
+
+                    <p class="mt-1 font-medium text-slate-800">
+
+                        {{ student.phone|default:"Not provided" }}
+
+                    </p>
+
+                </div>
+
+
+                <!-- STATUS -->
+
+                <div>
+
+                    <p class="text-sm text-slate-500">
+                        Account Status
+                    </p>
+
+                    <div class="mt-1">
+
+                        {% if student.is_active %}
+
+                            <span class="inline-flex
+                                         px-3 py-1
+                                         rounded-full
+                                         text-xs
+                                         font-semibold
+                                         bg-green-100
+                                         text-green-700">
+
+                                Active
+
+                            </span>
+
+                        {% else %}
+
+                            <span class="inline-flex
+                                         px-3 py-1
+                                         rounded-full
+                                         text-xs
+                                         font-semibold
+                                         bg-red-100
+                                         text-red-700">
+
+                                Inactive
+
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 ACADEMIC INFORMATION
+            ================================================== -->
+
+            <div class="border-t
+                        border-slate-200
+                        mt-8
+                        pt-8">
+
+
+                <h3 class="text-lg font-semibold
+                           text-slate-800 mb-5">
+
+                    Academic Information
+
+                </h3>
+
+
+                <div class="grid grid-cols-1
+                            md:grid-cols-3
+                            gap-6">
+
+
+                    <!-- DEPARTMENT -->
+
+                    <div class="bg-slate-50
+                                rounded-lg
+                                p-5">
+
+                        <p class="text-sm text-slate-500">
+                            Department
+                        </p>
+
+                        <p class="mt-2
+                                  font-semibold
+                                  text-slate-800">
+
+                            {{ student.department|default:"-" }}
+
+                        </p>
+
+                    </div>
+
+
+                    <!-- COURSE -->
+
+                    <div class="bg-slate-50
+                                rounded-lg
+                                p-5">
+
+                        <p class="text-sm text-slate-500">
+                            Course
+                        </p>
+
+                        <p class="mt-2
+                                  font-semibold
+                                  text-slate-800">
+
+                            {{ student.course|default:"-" }}
+
+                        </p>
+
+                    </div>
+
+
+                    <!-- SEMESTER -->
+
+                    <div class="bg-slate-50
+                                rounded-lg
+                                p-5">
+
+                        <p class="text-sm text-slate-500">
+                            Semester
+                        </p>
+
+                        <p class="mt-2
+                                  font-semibold
+                                  text-slate-800">
+
+                            Semester
+                            {{ student.semester }}
+
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 ACCOUNT INFORMATION
+            ================================================== -->
+
+            <div class="border-t
+                        border-slate-200
+                        mt-8
+                        pt-8">
+
+
+                <h3 class="text-lg font-semibold
+                           text-slate-800 mb-5">
+
+                    Account Information
+
+                </h3>
+
+
+                <div class="bg-blue-50
+                            border border-blue-100
+                            rounded-lg
+                            p-5">
+
+                    <div class="flex gap-3">
+
+                        <div class="text-xl">
+                            🔒
+                        </div>
+
+                        <div>
+
+                            <p class="font-semibold
+                                      text-blue-900">
+
+                                Account Security
+
+                            </p>
+
+                            <p class="text-sm
+                                      text-blue-700
+                                      mt-1">
+
+                                Your examination account is
+                                protected by your student
+                                credentials. Do not share
+                                your password with anyone.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,297 @@
+<aside class="w-72 bg-blue-950 text-white min-h-screen fixed left-0 top-0 shadow-xl">
+
+    <!-- =========================================
+         LOGO
+    ========================================== -->
+
+    <div class="h-20 flex items-center justify-center border-b border-blue-800">
+
+        <div class="text-xl font-bold tracking-wide">
+            🎓 Faculty
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         FACULTY USER
+    ========================================== -->
+
+    <div class="px-6 py-5 border-b border-blue-800">
+
+        <div class="flex items-center gap-3">
+
+            <!-- Avatar -->
+
+            <div class="w-11 h-11 rounded-full bg-blue-600
+                        flex items-center justify-center
+                        text-white font-bold text-lg">
+
+                {% if faculty %}
+                    {{ faculty.first_name|first|upper }}
+                {% elif request.user.is_authenticated %}
+                    {{ request.user.username|first|upper }}
+                {% else %}
+                    F
+                {% endif %}
+
+            </div>
+
+
+            <!-- Faculty Information -->
+
+            <div>
+
+                <p class="text-xs text-blue-300 uppercase tracking-wider">
+                    Logged in as
+                </p>
+
+                <p class="text-base font-semibold text-white">
+
+                    {% if faculty %}
+
+                        {{ faculty.first_name }}
+                        {{ faculty.last_name }}
+
+                    {% elif request.user.is_authenticated %}
+
+                        {{ request.user.username }}
+
+                    {% else %}
+
+                        Faculty
+
+                    {% endif %}
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         NAVIGATION
+    ========================================== -->
+
+    <nav class="p-4 space-y-2">
+
+
+        <!-- =====================================
+             DASHBOARD
+        ====================================== -->
+
+        <a
+            href="{% url 'faculty_dashboard' %}"
+            class="flex items-center gap-3
+                   px-4 py-3
+                   rounded-lg
+                   hover:bg-blue-800
+                   transition duration-200"
+        >
+
+            <span class="text-lg">
+                🏠
+            </span>
+
+            <span class="font-medium">
+                Dashboard
+            </span>
+
+        </a>
+
+
+        <!-- =====================================
+             MY EXAMINATIONS
+        ====================================== -->
+
+        <a
+            href="{% url 'faculty_exam_list' %}"
+            class="flex items-center gap-3
+                   px-4 py-3
+                   rounded-lg
+                   hover:bg-blue-800
+                   transition duration-200"
+        >
+
+            <span class="text-lg">
+                📝
+            </span>
+
+            <span class="font-medium">
+                My Examinations
+            </span>
+
+        </a>
+
+
+        <!-- =====================================
+             QUESTION BANK
+        ====================================== -->
+
+        <a
+            href="{% url 'question_list' %}"
+            class="flex items-center gap-3
+                   px-4 py-3
+                   rounded-lg
+                   hover:bg-blue-800
+                   transition duration-200"
+        >
+
+            <span class="text-lg">
+                ❓
+            </span>
+
+            <span class="font-medium">
+                Question Bank
+            </span>
+
+        </a>
+
+
+        <!-- =====================================
+             EXAM QUESTIONS
+        ====================================== -->
+
+        <a
+            href="#"
+            class="flex items-center gap-3
+                   px-4 py-3
+                   rounded-lg
+                   hover:bg-blue-800
+                   transition duration-200"
+        >
+
+            <span class="text-lg">
+                🔗
+            </span>
+
+            <span class="font-medium">
+                Exam Questions
+            </span>
+
+        </a>
+
+
+        <!-- =====================================
+             RESULTS
+        ====================================== -->
+
+        <a
+            href="#"
+            class="flex items-center gap-3
+                   px-4 py-3
+                   rounded-lg
+                   hover:bg-blue-800
+                   transition duration-200"
+        >
+
+            <span class="text-lg">
+                📊
+            </span>
+
+            <span class="font-medium">
+                Results
+            </span>
+
+        </a>
+
+
+        <!-- =====================================
+             PROFILE
+        ====================================== -->
+
+        <a
+            href="{% url 'faculty_profile' %}"
+            class="flex items-center gap-3
+                   px-4 py-3
+                   rounded-lg
+                   hover:bg-blue-800
+                   transition duration-200"
+        >
+
+            <span class="text-lg">
+                👤
+            </span>
+
+            <span class="font-medium">
+                My Profile
+            </span>
+
+        </a>
+
+
+        <!-- =====================================
+             DIVIDER
+        ====================================== -->
+
+        <div class="border-t border-blue-800 my-5"></div>
+
+
+        <!-- =====================================
+             LOGOUT
+        ====================================== -->
+
+        <form
+            method="post"
+            action="{% url 'faculty_logout' %}"
+            class="w-full"
+        >
+
+            {% csrf_token %}
+
+            <button
+                type="submit"
+                class="w-full flex items-center gap-3
+                       px-4 py-3
+                       rounded-lg
+                       text-red-300
+                       hover:bg-red-700
+                       hover:text-white
+                       transition duration-200
+                       text-left
+                       border-0
+                       bg-transparent
+                       cursor-pointer"
+            >
+
+                <span class="text-lg">
+                    🚪
+                </span>
+
+                <span class="font-medium">
+                    Logout
+                </span>
+
+            </button>
+
+        </form>
+
+
+    </nav>
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================== -->
+
+    <div
+        class="absolute bottom-0 left-0 right-0
+               px-6 py-4
+               border-t border-blue-800"
+    >
+
+        <p class="text-xs text-blue-400 text-center">
+            Digital Internal Assessment Portal
+        </p>
+
+        <p class="text-xs text-blue-500 text-center mt-1">
+            Faculty Portal
+        </p>
+
+    </div>
+
+
+</aside>

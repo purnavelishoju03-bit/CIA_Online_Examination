@@ -1,0 +1,46 @@
+```html
+{% extends 'admin_panel/layouts/base.html' %}
+
+{% block title %}Delete Course{% endblock %}
+
+{% block content %}
+
+<div class="max-w-xl mx-auto">
+
+    <div class="bg-white rounded-xl shadow-md p-8">
+
+        <h1 class="text-3xl font-bold text-red-600 mb-4">
+            Delete Course
+        </h1>
+
+        <p class="text-lg text-gray-700 mb-6">
+            Are you sure you want to delete
+            <strong>{{ course.name }}</strong>?
+        </p>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="flex gap-4">
+
+                <button type="submit"
+                    class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg">
+                    Delete
+                </button>
+
+                <a href="{% url 'course_list' %}"
+                    class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg">
+                    Cancel
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
+```

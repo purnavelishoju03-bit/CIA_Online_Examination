@@ -1,0 +1,592 @@
+{% extends "admin_panel/layouts/base.html" %}
+
+{% block title %}Exam Question Mapping{% endblock %}
+
+{% block content %}
+
+<div class="max-w-7xl mx-auto">
+
+    <!-- PAGE HEADER -->
+    <div class="mb-8">
+
+        <div class="flex items-center gap-3">
+
+            <div class="w-11 h-11 bg-blue-100 text-blue-600
+                        rounded-xl flex items-center justify-center
+                        text-xl">
+                📝
+            </div>
+
+            <div>
+                <h1 class="text-3xl font-bold text-slate-800">
+                    Exam Question Mapping
+                </h1>
+
+                <p class="text-gray-500 mt-1">
+                    Select questions from the Question Bank and assign them to an examination.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- EXAM SELECTION CARD -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-200
+                p-6 mb-6">
+
+        <label class="block text-sm font-semibold text-gray-700 mb-2">
+            Select Examination
+            <span class="text-red-500">*</span>
+        </label>
+
+        <form method="GET">
+
+            <select
+                name="exam"
+                class="w-full border border-gray-300 rounded-xl
+                       px-4 py-3 text-base
+                       focus:outline-none focus:ring-2
+                       focus:ring-blue-500
+                       focus:border-blue-500"
+                onchange="this.form.submit()">
+
+                <option value="">
+                    -------- Select Examination --------
+                </option>
+
+                {% for exam in exams %}
+
+                    <option
+                        value="{{ exam.id }}"
+                        {% if selected_exam and selected_exam.id == exam.id %}
+                            selected
+                        {% endif %}>
+
+                        {{ exam.exam_name }} | {{ exam.subject }}
+
+                    </option>
+
+                {% endfor %}
+
+            </select>
+
+        </form>
+
+    </div>
+
+
+    {% if selected_exam %}
+
+    <!-- EXAM INFORMATION -->
+    <div class="bg-white rounded-2xl shadow-sm
+                border border-gray-200 overflow-hidden mb-6">
+
+        <div class="bg-gradient-to-r from-blue-600 to-indigo-600
+                    px-6 py-5 text-white">
+
+            <div class="flex flex-col md:flex-row
+                        md:items-center md:justify-between gap-4">
+
+                <div>
+
+                    <p class="text-blue-100 text-sm">
+                        Selected Examination
+                    </p>
+
+                    <h2 class="text-2xl font-bold mt-1">
+                        {{ selected_exam.exam_name }}
+                    </h2>
+
+                </div>
+
+
+                <div class="flex flex-wrap gap-3 text-sm">
+
+                    <span class="bg-white/15 px-4 py-2 rounded-lg">
+                        Department:
+                        <strong>{{ selected_exam.department }}</strong>
+                    </span>
+
+                    <span class="bg-white/15 px-4 py-2 rounded-lg">
+                        Course:
+                        <strong>{{ selected_exam.course }}</strong>
+                    </span>
+
+                    <span class="bg-white/15 px-4 py-2 rounded-lg">
+                        Subject:
+                        <strong>{{ selected_exam.subject }}</strong>
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- QUESTION MAPPING CARD -->
+    <div class="bg-white rounded-2xl shadow-sm
+                border border-gray-200 overflow-hidden">
+
+        <!-- CARD HEADER -->
+        <div class="px-6 py-5 border-b border-gray-200">
+
+            <div class="flex flex-col lg:flex-row
+                        lg:items-center lg:justify-between gap-4">
+
+                <div>
+
+                    <h3 class="text-xl font-bold text-gray-800">
+                        {{ selected_exam.subject }} Question Bank
+                    </h3>
+
+                    <p class="text-sm text-gray-500 mt-1">
+                        {{ available_questions|length }} questions available
+                    </p>
+
+                </div>
+
+
+                <!-- SEARCH + FILTER -->
+                <div class="flex flex-col sm:flex-row gap-3">
+
+                    <input
+                        type="text"
+                        id="questionSearch"
+                        placeholder="Search questions..."
+                        class="w-full sm:w-72
+                               border border-gray-300
+                               rounded-lg px-4 py-2.5
+                               focus:outline-none
+                               focus:ring-2
+                               focus:ring-blue-500">
+
+                    <select
+                        id="difficultyFilter"
+                        class="border border-gray-300
+                               rounded-lg px-4 py-2.5
+                               focus:outline-none
+                               focus:ring-2
+                               focus:ring-blue-500">
+
+                        <option value="">
+                            All Difficulty
+                        </option>
+
+                        <option value="Easy">
+                            Easy
+                        </option>
+
+                        <option value="Medium">
+                            Medium
+                        </option>
+
+                        <option value="Hard">
+                            Hard
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- FORM -->
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <input
+                type="hidden"
+                name="exam"
+                value="{{ selected_exam.id }}">
+
+
+            <!-- TABLE -->
+            <div class="overflow-x-auto">
+
+                <table class="min-w-full">
+
+                    <thead class="bg-gray-50 border-b border-gray-200">
+
+                        <tr>
+
+                            <th class="p-4 text-center w-16">
+
+                                <input
+                                    type="checkbox"
+                                    id="select_all"
+                                    class="w-5 h-5 accent-blue-600 cursor-pointer">
+
+                            </th>
+
+                            <th class="p-4 text-left text-sm
+                                       font-semibold text-gray-700">
+
+                                Question
+
+                            </th>
+
+                            <th class="p-4 text-center text-sm
+                                       font-semibold text-gray-700">
+
+                                Difficulty
+
+                            </th>
+
+                            <th class="p-4 text-center text-sm
+                                       font-semibold text-gray-700">
+
+                                Marks
+
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="questionTable">
+
+                    {% for question in available_questions %}
+
+                        <tr
+                            class="question-row border-b
+                                   border-gray-100 hover:bg-blue-50
+                                   transition"
+                            data-question="{{ question.question|lower }}"
+                            data-difficulty="{{ question.difficulty }}">
+
+                            <td class="p-4 text-center">
+
+                                <input
+                                    type="checkbox"
+                                    class="question-checkbox
+                                           w-5 h-5 accent-blue-600
+                                           cursor-pointer"
+                                    name="questions"
+                                    value="{{ question.id }}">
+
+                            </td>
+
+
+                            <td class="p-4">
+
+                                <div class="text-gray-800 font-medium leading-6">
+
+                                    {{ question.question }}
+
+                                </div>
+
+                                <div class="text-xs text-gray-400 mt-1">
+
+                                    Q{{ question.id }}
+
+                                </div>
+
+                            </td>
+
+
+                            <td class="p-4 text-center">
+
+                                {% if question.difficulty == "Easy" %}
+
+                                    <span class="inline-flex
+                                                 px-3 py-1 rounded-full
+                                                 text-xs font-semibold
+                                                 bg-green-100
+                                                 text-green-700">
+
+                                        Easy
+
+                                    </span>
+
+                                {% elif question.difficulty == "Medium" %}
+
+                                    <span class="inline-flex
+                                                 px-3 py-1 rounded-full
+                                                 text-xs font-semibold
+                                                 bg-yellow-100
+                                                 text-yellow-700">
+
+                                        Medium
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="inline-flex
+                                                 px-3 py-1 rounded-full
+                                                 text-xs font-semibold
+                                                 bg-red-100
+                                                 text-red-700">
+
+                                        Hard
+
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <td class="p-4 text-center">
+
+                                <span class="font-semibold text-gray-700">
+                                    {{ question.marks }}
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+                    {% empty %}
+
+                        <tr>
+
+                            <td colspan="4"
+                                class="text-center py-14">
+
+                                <div class="text-4xl mb-3">
+                                    📭
+                                </div>
+
+                                <h4 class="text-lg font-semibold text-gray-700">
+                                    No Active Questions Available
+                                </h4>
+
+                                <p class="text-gray-500 text-sm mt-1">
+                                    Add questions to this subject's Question Bank first.
+                                </p>
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <!-- FOOTER -->
+            <div class="px-6 py-5
+                        border-t border-gray-200
+                        bg-gray-50
+                        flex flex-col md:flex-row
+                        md:items-center
+                        md:justify-between gap-4">
+
+                <div>
+
+                    <p class="text-sm text-gray-500">
+                        Selected Questions
+                    </p>
+
+                    <p id="selectedCount"
+                       class="text-2xl font-bold text-blue-600">
+                        0
+                    </p>
+
+                </div>
+
+
+                <div class="flex gap-3">
+
+                    <a href="{% url 'exam_question_list' %}"
+                       class="px-6 py-3
+                              bg-white border border-gray-300
+                              hover:bg-gray-100
+                              text-gray-700
+                              font-semibold rounded-lg
+                              transition">
+
+                        Cancel
+
+                    </a>
+
+
+                    <button
+                        type="submit"
+                        id="assignButton"
+                        class="px-7 py-3
+                               bg-blue-600 hover:bg-blue-700
+                               text-white font-semibold
+                               rounded-lg shadow-md
+                               transition">
+
+                        ✓ Assign Selected Questions
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+
+<!-- JAVASCRIPT -->
+<script>
+
+    const selectAll =
+        document.getElementById("select_all");
+
+    const searchInput =
+        document.getElementById("questionSearch");
+
+    const difficultyFilter =
+        document.getElementById("difficultyFilter");
+
+    const selectedCount =
+        document.getElementById("selectedCount");
+
+
+    function updateSelectedCount() {
+
+        const checked =
+            document.querySelectorAll(
+                ".question-checkbox:checked"
+            ).length;
+
+        if (selectedCount) {
+
+            selectedCount.textContent = checked;
+
+        }
+
+    }
+
+
+    if (selectAll) {
+
+        selectAll.addEventListener("change", function () {
+
+            document.querySelectorAll(
+                ".question-row"
+            ).forEach(function (row) {
+
+                if (row.style.display !== "none") {
+
+                    const checkbox =
+                        row.querySelector(
+                            ".question-checkbox"
+                        );
+
+                    checkbox.checked =
+                        selectAll.checked;
+
+                }
+
+            });
+
+            updateSelectedCount();
+
+        });
+
+    }
+
+
+    document.querySelectorAll(
+        ".question-checkbox"
+    ).forEach(function (checkbox) {
+
+        checkbox.addEventListener(
+            "change",
+            updateSelectedCount
+        );
+
+    });
+
+
+    function filterQuestions() {
+
+        const search =
+            searchInput
+                ? searchInput.value.toLowerCase()
+                : "";
+
+        const difficulty =
+            difficultyFilter
+                ? difficultyFilter.value
+                : "";
+
+
+        document.querySelectorAll(
+            ".question-row"
+        ).forEach(function (row) {
+
+            const question =
+                row.dataset.question || "";
+
+            const rowDifficulty =
+                row.dataset.difficulty || "";
+
+
+            const matchesSearch =
+                question.includes(search);
+
+            const matchesDifficulty =
+                difficulty === "" ||
+                rowDifficulty === difficulty;
+
+
+            if (
+                matchesSearch &&
+                matchesDifficulty
+            ) {
+
+                row.style.display = "";
+
+            } else {
+
+                row.style.display = "none";
+
+            }
+
+        });
+
+    }
+
+
+    if (searchInput) {
+
+        searchInput.addEventListener(
+            "input",
+            filterQuestions
+        );
+
+    }
+
+
+    if (difficultyFilter) {
+
+        difficultyFilter.addEventListener(
+            "change",
+            filterQuestions
+        );
+
+    }
+
+
+    updateSelectedCount();
+
+</script>
+
+{% endblock %}
