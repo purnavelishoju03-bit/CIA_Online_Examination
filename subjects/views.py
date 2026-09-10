@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-
+from django.db.models import Q
 from .models import Subject
 from .forms import SubjectForm
 
@@ -89,5 +89,31 @@ def subject_delete(request, pk):
         "subjects/subject_delete.html",
         {
             "subject": subject
+        }
+    )
+def subject_list(request):
+
+    search = request.GET.get("search", "").strip()
+
+    subjects = Subject.objects.select_related(
+        "department",
+        "course"
+    ).all()
+
+    if search:
+        subjects = subjects.filter(
+            Q(department__name__icontains=search) |
+            Q(course__name__icontains=search) |
+            Q(name__icontains=search) |
+            Q(code__icontains=search) |
+            Q(semester__icontains=search)
+        )
+
+    return render(
+        request,
+        "subjects/subject_list.html",
+        {
+            "subjects": subjects,
+            "search": search,
         }
     )
